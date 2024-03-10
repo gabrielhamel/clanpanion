@@ -15,7 +15,7 @@ module.exports = {
   },
   parser: "@typescript-eslint/parser",
   plugins: ["@typescript-eslint", "simple-import-sort", "sort-keys-fix"],
-  ignorePatterns: [".eslintrc.js", "public"],
+  ignorePatterns: [".eslintrc.js", "public/mockServiceWorker.js"],
   rules: {
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": "error",
@@ -29,6 +29,23 @@ module.exports = {
     "@typescript-eslint/no-restricted-imports": [
       "error",
       {
+        paths: [
+          {
+            name: "react-i18next",
+            importNames: ["useTranslation"],
+            message: "Please use useTranslation from custom hook instead.",
+          },
+          {
+            name: "i18next",
+            importNames: ["t"],
+            message: 'Please import { t } from "@/i18n" instead.',
+          },
+          {
+            name: "next/router",
+            importNames: ["useRouter"],
+            message: "Please use useRouter from custom hook instead.",
+          },
+        ],
         patterns: [
           {
             group: ["*.tsx", "*.ts", "*.js"],

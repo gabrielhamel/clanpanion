@@ -1,4 +1,6 @@
-const translations = {} as const;
+const translations = {
+  hello: "Bonjour",
+} as const;
 
 type WithOrWithoutPlural<K> = K extends unknown
   ? K extends `${infer B}_${"zero" | "one" | "two" | "few" | "many" | "other"}`

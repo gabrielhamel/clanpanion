@@ -33,17 +33,27 @@ module.exports = {
           {
             name: "react-i18next",
             importNames: ["useTranslation"],
-            message: "Please use useTranslation from custom hook instead.",
+            message: "Please use useTranslation from @/i18n instead.",
           },
           {
             name: "i18next",
             importNames: ["t"],
-            message: 'Please import { t } from "@/i18n" instead.',
+            message: "Please import { t } from @/i18n instead.",
           },
           {
             name: "next/router",
             importNames: ["useRouter"],
-            message: "Please use useRouter from custom hook instead.",
+            message: "Please use useRouter from @/router instead.",
+          },
+          {
+            name: "next/navigation",
+            importNames: ["useRouter"],
+            message: "Please use useRouter from @/router instead.",
+          },
+          {
+            name: "next-router-mock",
+            importNames: ["useRouter"],
+            message: "Please use useRouter from @/router instead.",
           },
         ],
         patterns: [

@@ -1,11 +1,7 @@
-import { Button } from "@mui/material";
-import { useTranslation } from "@/i18n";
-import { useRouter } from "@/router";
+import { ClanSearchInput } from "@/components/ClanSearchInput";
 
 const Index = () => {
-  const { t } = useTranslation();
-  useRouter();
-  return <Button variant="contained">{t("hello")}</Button>;
+  return <ClanSearchInput />;
 };
 
 export default Index;

@@ -33,7 +33,12 @@ module.exports = {
           {
             group: ["*.tsx", "*.ts", "*.js"],
             message:
-              'usage of the file extension ["*.tsx", "*.ts", "*.js"] in import or export is not allowed.',
+              'Usage of the file extension ["*.tsx", "*.ts", "*.js"] in import or export is not allowed.',
+          },
+          {
+            group: ["@mui/base", "@mui/base/*"],
+            message:
+              "Usage of @mui/base is not allowed, use @mui/material instead",
           },
         ],
       },

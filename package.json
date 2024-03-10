@@ -9,8 +9,8 @@
     "start": "next start",
     "test": "vitest --run -c ./src/tests/vitest.config.mts",
     "test:watch": "vitest --watch -c ./src/tests/vitest.config.mts",
-    "lint": "eslint \"./**/*.{js,jsx,ts,tsx,md,mdx}\" --fix",
-    "format": "prettier --write \"./**/*.{js,jsx,ts,tsx,md,mdx}\""
+    "lint": "eslint \"./**/*.{js,jsx,ts,tsx}\"",
+    "format": "prettier -c \"./**/*.{js,jsx,ts,tsx,md,mdx}\""
   },
   "dependencies": {
     "@emotion/react": "11.11.4",

@@ -1,5 +1,5 @@
 const translations = {
-  hello: "Bonjour",
+  hello: "Test vercel",
 } as const;
 
 type WithOrWithoutPlural<K> = K extends unknown

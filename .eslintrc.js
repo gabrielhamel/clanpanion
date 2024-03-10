@@ -15,7 +15,11 @@ module.exports = {
   },
   parser: "@typescript-eslint/parser",
   plugins: ["@typescript-eslint", "simple-import-sort", "sort-keys-fix"],
-  ignorePatterns: [".eslintrc.js", "public/mockServiceWorker.js"],
+  ignorePatterns: [
+    ".eslintrc.js",
+    "public/mockServiceWorker.js",
+    "commitlint.config.js",
+  ],
   rules: {
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": "error",

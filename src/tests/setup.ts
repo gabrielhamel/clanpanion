@@ -1,7 +1,23 @@
 import { cleanup } from "@testing-library/react";
-import { afterEach } from "vitest";
+import { setupServer } from "msw/node";
+import { afterAll, afterEach, beforeAll } from "vitest";
 import "@testing-library/jest-dom/vitest";
 
+export const msw = setupServer();
+
+beforeAll(() => {
+  msw.listen({
+    onUnhandledRequest: (request) => {
+      throw new Error(`Unhandled HTTP request: ${request.url}`);
+    },
+  });
+});
+
 afterEach(() => {
+  msw.resetHandlers();
   cleanup();
+});
+
+afterAll(() => {
+  msw.close();
 });

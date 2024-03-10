@@ -1,4 +1,4 @@
-# **Instant chan**
+# **Clanpanion**
 
 ### **How to develop**
 
@@ -17,4 +17,4 @@ npm run test:watch
 
 ### **Support**
 
-Contact `gabouchet` on our support server [discord servers](https://discord.gg/bYsnuZfecX)
+[Discord server](https://discord.gg/bYsnuZfecX)

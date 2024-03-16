@@ -7,20 +7,20 @@ import { apiClient } from "@/backend/client";
 const ClanSearchInput = () => {
   const [searchValue, setSearchValue] = useState("");
 
-  const { data } = apiClient.searchClan.useQuery(
+  const { data } = apiClient.clan.search.useQuery(
     searchValue ? { name: searchValue } : skipToken,
   );
 
   const clans = data ?? [];
 
+  const autocompleteOptions = clans.map((option) => ({
+    ...option,
+    label: `[${option.tag}] ${option.name}`,
+  }));
+
   return (
     <Autocomplete
-      options={
-        clans.map((option) => ({
-          ...option,
-          label: `[${option.tag}] ${option.name}`,
-        })) ?? []
-      }
+      options={autocompleteOptions}
       onInputChange={(_, value) => setSearchValue(value)}
       renderInput={(params) => <TextField {...params} />}
       renderOption={(_, option) => (
@@ -38,7 +38,7 @@ const ClanSearchInput = () => {
               src={`https://eu.wargaming.net${option.emblem_url}`}
             />
           </Box>
-          <Box>{`[${option.tag}] ${option.name}]`}</Box>
+          <Box>{option.label}</Box>
         </Box>
       )}
     />

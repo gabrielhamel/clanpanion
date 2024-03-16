@@ -72,6 +72,10 @@ module.exports = {
             message:
               "Usage of @mui/base is not allowed, use @mui/material instead",
           },
+          {
+            group: ["react-dom", "@testing-library/react"],
+            message: "Use @/tests/render instead",
+          },
         ],
       },
     ],

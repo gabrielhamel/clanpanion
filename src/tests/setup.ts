@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports
 import { cleanup } from "@testing-library/react";
 import { setupServer } from "msw/node";
 import { afterAll, afterEach, beforeAll } from "vitest";
@@ -9,9 +10,7 @@ export const msw = setupServer();
 
 beforeAll(() => {
   msw.listen({
-    onUnhandledRequest: (request) => {
-      throw new Error(`Unhandled HTTP request: ${request.url}`);
-    },
+    onUnhandledRequest: "error",
   });
 
   mockI18n();

@@ -1,29 +1,27 @@
 import { useState } from "react";
 import { Autocomplete, Box, TextField } from "@mui/material";
+import { skipToken } from "@tanstack/react-query";
 import Image from "next/image";
-import { WargamingClanList } from "@/services/wargaming/schemas";
+import { apiClient } from "@/backend/client";
 
 const ClanSearchInput = () => {
-  const [searchOptions, setSearchOptions] = useState<WargamingClanList>([]);
+  const [searchValue, setSearchValue] = useState("");
 
-  const findMatchingClans = async (searchValue: string) => {
-    const response = await fetch(
-      `http://localhost:3000/api/clans/search?${new URLSearchParams({
-        search: searchValue,
-      })}`,
-    );
-    const searchClanResponse: WargamingClanList = await response.json();
+  const { data } = apiClient.searchClan.useQuery(
+    searchValue ? { name: searchValue } : skipToken,
+  );
 
-    setSearchOptions(searchClanResponse);
-  };
+  const clans = data ?? [];
 
   return (
     <Autocomplete
-      options={searchOptions.map((option) => ({
-        ...option,
-        label: `[${option.tag}] ${option.name}`,
-      }))}
-      onInputChange={(_, value) => findMatchingClans(value)}
+      options={
+        clans.map((option) => ({
+          ...option,
+          label: `[${option.tag}] ${option.name}`,
+        })) ?? []
+      }
+      onInputChange={(_, value) => setSearchValue(value)}
       renderInput={(params) => <TextField {...params} />}
       renderOption={(_, option) => (
         <Box

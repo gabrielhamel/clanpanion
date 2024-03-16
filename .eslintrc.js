@@ -37,7 +37,8 @@ module.exports = {
           {
             name: "react-i18next",
             importNames: ["useTranslation"],
-            message: "Please use useTranslation from @/i18n instead.",
+            message:
+              "Please use the useTranslation hook from @/hooks/useTranslation instead.",
           },
           {
             name: "i18next",

@@ -21,6 +21,5 @@ const { t } = i18nInstance;
   }))();
 
 export { t };
-export * from "./useTranslation";
 
 export default i18nInstance;

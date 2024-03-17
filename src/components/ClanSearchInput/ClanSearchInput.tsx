@@ -18,19 +18,32 @@ const ClanSearchInput = ({
   onChange,
   value,
 }: {
-  onChange: (clan: WargamingFindClanItem | null) => void;
-  value: WargamingFindClanItem | null;
+  onChange: (clanId: number | null) => void;
+  value: number | null;
 }) => {
   const { t } = useTranslation();
   const { currentRegion } = useRegion();
 
   const [searchValue, setSearchValue] = useState("");
 
-  const { data, isLoading } = apiClient.clan.find.useQuery(
+  const { data, isLoading: findLoading } = apiClient.clan.find.useQuery(
     searchValue ? { name: searchValue, region: currentRegion } : skipToken,
   );
 
+  const { data: clan } = apiClient.clan.get.useQuery(
+    value ? { id: value, region: currentRegion } : skipToken,
+  );
+
   const clans = data ?? [];
+
+  const currentClanOption = clans.find(({ id }) => id === value);
+  const currentClanEmblem = clan
+    ? clan.emblems.x32.portal
+    : `https://${regions[currentRegion].websiteDomain}${currentClanOption?.emblem_url ?? ""}`;
+  const currentClanTag = clan ? clan.tag : currentClanOption?.tag ?? "";
+  const currentClanColor = clan
+    ? clan.color
+    : currentClanOption?.hex_color ?? "";
 
   return (
     <Autocomplete
@@ -38,7 +51,7 @@ const ClanSearchInput = ({
       clearOnBlur={true}
       handleHomeEndKeys={true}
       clearOnEscape={true}
-      loading={isLoading}
+      loading={findLoading}
       autoComplete={true}
       loadingText={`${t("state.loading")}...`}
       noOptionsText={t("state.empty")}
@@ -50,7 +63,7 @@ const ClanSearchInput = ({
       getOptionLabel={(clan) => clan.name}
       onInputChange={debounce((_, value) => setSearchValue(value), 250)}
       onChange={(_, newValue) => {
-        onChange(newValue);
+        onChange(newValue?.id ?? null);
       }}
       renderInput={(params) =>
         value ? (
@@ -61,8 +74,8 @@ const ClanSearchInput = ({
               ...params.InputProps,
               startAdornment: (
                 <ClanInput>
-                  <ClanEmblem emblemUrl={value.emblem_url} />
-                  <ClanTag color={value.hex_color} tag={value.tag} />
+                  <ClanEmblem emblemUrl={currentClanEmblem} />
+                  <ClanTag color={currentClanColor} tag={currentClanTag} />
                 </ClanInput>
               ),
             }}
@@ -75,8 +88,8 @@ const ClanSearchInput = ({
         <ClanOption {...props} key={option.id}>
           <ClanDetailLine
             {...props}
-            onClick={(clanId) => {
-              onChange(clanId);
+            onClick={(clan) => {
+              onChange(clan.id);
             }}
             clan={option}
           />
@@ -92,15 +105,21 @@ const ClanDetailLine = ({
 }: {
   clan: WargamingFindClanItem;
   onClick: (clan: WargamingFindClanItem) => void;
-}) => (
-  <ClanDetailLineContainer onClick={() => onClick(clan)}>
-    <ClanEmblem emblemUrl={clan.emblem_url} />
-    <Box>
-      <ClanTag tag={clan.tag} color={clan.hex_color} />
-      <Box>{clan.name}</Box>
-    </Box>
-  </ClanDetailLineContainer>
-);
+}) => {
+  const { currentRegion } = useRegion();
+
+  return (
+    <ClanDetailLineContainer onClick={() => onClick(clan)}>
+      <ClanEmblem
+        emblemUrl={`https://${regions[currentRegion].websiteDomain}${clan.emblem_url}`}
+      />
+      <Box>
+        <ClanTag tag={clan.tag} color={clan.hex_color} />
+        <Box>{clan.name}</Box>
+      </Box>
+    </ClanDetailLineContainer>
+  );
+};
 
 const ClanTag = ({ tag, color }: { tag: string; color: string }) => (
   <Box sx={{ color }}>
@@ -108,19 +127,10 @@ const ClanTag = ({ tag, color }: { tag: string; color: string }) => (
   </Box>
 );
 
-const ClanEmblem = ({ emblemUrl }: { emblemUrl: string }) => {
-  const { currentRegion } = useRegion();
-
-  return (
-    <ClanEmblemContainer>
-      <Image
-        alt="clan-emblem"
-        width={32}
-        height={32}
-        src={`https://${regions[currentRegion].websiteDomain}${emblemUrl}`}
-      />
-    </ClanEmblemContainer>
-  );
-};
+const ClanEmblem = ({ emblemUrl }: { emblemUrl: string }) => (
+  <ClanEmblemContainer>
+    <Image alt="clan-emblem" width={32} height={32} src={emblemUrl} />
+  </ClanEmblemContainer>
+);
 
 export default ClanSearchInput;

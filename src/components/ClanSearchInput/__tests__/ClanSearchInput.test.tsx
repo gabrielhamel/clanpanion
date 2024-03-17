@@ -11,7 +11,7 @@ describe("Clan search input component", () => {
       {
         emblem_url: "fake-emblem-url",
         hex_color: "#1EFF87",
-        id: 0,
+        id: 666,
         name: "cringo-clan-name",
         tag: "CRNGO",
         type: "clan",
@@ -29,14 +29,6 @@ describe("Clan search input component", () => {
     const option = await findByText(/cringo-clan-name/);
     act(() => option.click());
 
-    expect(onClanSelected).toHaveBeenCalledWith({
-      emblem_url: "fake-emblem-url",
-      hex_color: "#1EFF87",
-      id: 0,
-      name: "cringo-clan-name",
-      tag: "CRNGO",
-      type: "clan",
-      url: "fake-clan-url",
-    });
+    expect(onClanSelected).toHaveBeenCalledWith(666);
   });
 });

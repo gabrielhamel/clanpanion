@@ -3,10 +3,9 @@ import { Box, Button } from "@mui/material";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ClanSearchInput } from "@/components/ClanSearchInput";
 import { useRegion } from "@/hooks/useRegion";
-import { WargamingFindClanItem } from "@/services/wargaming/types";
 
 const Index = () => {
-  const [clan, setClan] = useState<WargamingFindClanItem | null>(null);
+  const [clan, setClan] = useState<number | null>(null);
 
   const { switchRegion } = useRegion();
 

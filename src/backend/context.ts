@@ -1,13 +1,19 @@
 import { WargamingService } from "@/services/wargaming/wargaming.service";
 
-export const createContext = () => {
-  const wargamingService = new WargamingService(
-    "330f82b8c534d7ccd3eee5fb23980bef",
-  );
+const getWargamingService = () => {
+  const { WARGAMING_API_KEY } = process.env;
 
+  if (!WARGAMING_API_KEY) {
+    throw new Error("No WARGAMING_API_KEY provided");
+  }
+
+  return new WargamingService(WARGAMING_API_KEY);
+};
+
+export const createContext = () => {
   return {
     services: {
-      wargaming: wargamingService,
+      wargaming: getWargamingService(),
     },
   };
 };

@@ -12,7 +12,7 @@ const Index = () => {
       <ClanSearchInput
         onChange={setClan}
         value={clan}
-        region={WargamingRegion.ASIA}
+        region={WargamingRegion.EU}
       />
     </Box>
   );

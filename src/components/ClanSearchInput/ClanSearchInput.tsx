@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Autocomplete, Box, debounce, TextField } from "@mui/material";
 import { skipToken } from "@tanstack/react-query";
 import Image from "next/image";
+import { useTranslation } from "next-i18next";
 import { apiClient } from "@/backend/client";
 import { useRegion } from "@/hooks/useRegion";
-import { useTranslation } from "@/hooks/useTranslation";
 import { regions } from "@/services/wargaming/region";
 import { WargamingFindClanItem } from "@/services/wargaming/types";
 import {

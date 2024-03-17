@@ -20,13 +20,13 @@ describe("Clan search input component", () => {
     ]);
 
     const onClanSelected = vi.fn();
-    const { getByRole, getByText } = render(
+    const { getByRole, findByText } = render(
       <ClanSearchInput onChange={onClanSelected} value={null} />,
     );
     const input = getByRole("combobox");
 
     await userEvent.type(input, "cringo");
-    const option = getByText(/cringo-clan-name/);
+    const option = await findByText(/cringo-clan-name/);
     act(() => option.click());
 
     expect(onClanSelected).toHaveBeenCalledWith({

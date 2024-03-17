@@ -19,6 +19,7 @@ module.exports = {
     ".eslintrc.js",
     "public/mockServiceWorker.js",
     "commitlint.config.js",
+    "next-i18next.config.js",
   ],
   rules: {
     "no-unused-vars": "off",
@@ -38,27 +39,7 @@ module.exports = {
             name: "react-i18next",
             importNames: ["useTranslation"],
             message:
-              "Please use the useTranslation hook from @/hooks/useTranslation instead.",
-          },
-          {
-            name: "i18next",
-            importNames: ["t"],
-            message: "Please import { t } from @/i18n instead.",
-          },
-          {
-            name: "next/router",
-            importNames: ["useRouter"],
-            message: "Please use useRouter from @/router instead.",
-          },
-          {
-            name: "next/navigation",
-            importNames: ["useRouter"],
-            message: "Please use useRouter from @/router instead.",
-          },
-          {
-            name: "next-router-mock",
-            importNames: ["useRouter"],
-            message: "Please use useRouter from @/router instead.",
+              'Please use the useTranslation hook from "next-i18next" instead.',
           },
         ],
         patterns: [

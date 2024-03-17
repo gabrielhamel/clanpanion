@@ -7,7 +7,7 @@ import { act, render } from "@/tests/render";
 
 describe("Clan search input component", () => {
   it("Should find the searched clan and select it", async () => {
-    mockTRPCQueryResponse<RouterOutput["clan"]["search"]>("clan.search", [
+    mockTRPCQueryResponse<RouterOutput["clan"]["find"]>("clan.find", [
       {
         emblem_url: "fake-emblem-url",
         hex_color: "#1EFF87",

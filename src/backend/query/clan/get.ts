@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { trpc } from "@/backend/trpc";
-import { WargamingService } from "@/services/wargaming/wargaming.service";
 
 export const get = trpc.procedure
   .input(
@@ -8,4 +7,6 @@ export const get = trpc.procedure
       id: z.number(),
     }),
   )
-  .query(({ input: { id } }) => WargamingService.getClan(id));
+  .query(({ input: { id }, ctx }) => {
+    return ctx.services.wargaming.getClan(id);
+  });

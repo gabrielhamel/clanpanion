@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Autocomplete, Box, debounce, TextField } from "@mui/material";
 import { skipToken } from "@tanstack/react-query";
 import Image from "next/image";
-import { z } from "zod";
 import { apiClient } from "@/backend/client";
 import { useTranslation } from "@/hooks/useTranslation";
-import { WargamingClanListSchema } from "@/services/wargaming/schemas";
+import { eu } from "@/services/wargaming/region";
+import { WargamingFindClanItem } from "@/services/wargaming/types";
 import {
   ClanDetailLineContainer,
   ClanEmblemContainer,
@@ -13,20 +13,17 @@ import {
   ClanOption,
 } from "./styles";
 
-const ClanSearchValueSchema = WargamingClanListSchema.element;
-export type ClanSearchValue = z.infer<typeof ClanSearchValueSchema>;
-
 const ClanSearchInput = ({
   onChange,
   value,
 }: {
-  onChange: (clan: ClanSearchValue | null) => void;
-  value: ClanSearchValue | null;
+  onChange: (clan: WargamingFindClanItem | null) => void;
+  value: WargamingFindClanItem | null;
 }) => {
   const { t } = useTranslation();
   const [searchValue, setSearchValue] = useState("");
 
-  const { data, isLoading } = apiClient.clan.search.useQuery(
+  const { data, isLoading } = apiClient.clan.find.useQuery(
     searchValue ? { name: searchValue } : skipToken,
   );
 
@@ -90,8 +87,8 @@ const ClanDetailLine = ({
   clan,
   onClick,
 }: {
-  clan: ClanSearchValue;
-  onClick: (clan: ClanSearchValue) => void;
+  clan: WargamingFindClanItem;
+  onClick: (clan: WargamingFindClanItem) => void;
 }) => (
   <ClanDetailLineContainer onClick={() => onClick(clan)}>
     <ClanEmblem emblemUrl={clan.emblem_url} />
@@ -114,7 +111,7 @@ const ClanEmblem = ({ emblemUrl }: { emblemUrl: string }) => (
       alt="clan-emblem"
       width={32}
       height={32}
-      src={`https://eu.wargaming.net${emblemUrl}`}
+      src={`https://${eu.websiteDomain}${emblemUrl}`}
     />
   </ClanEmblemContainer>
 );

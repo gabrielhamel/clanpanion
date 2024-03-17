@@ -1,9 +1,9 @@
 import { createContext, ReactNode } from "react";
 import { apiClient } from "@/backend/client";
-import { WargamingGetClanResult } from "@/services/wargaming/schemas";
+import { WargamingGetClanItem } from "@/services/wargaming/types";
 
 export const ClanContext = createContext<{
-  clan: WargamingGetClanResult | undefined;
+  clan: WargamingGetClanItem | undefined;
   loading: boolean;
 }>({
   clan: undefined,

@@ -1,31 +1,25 @@
 import { z } from "zod";
 
-export const WargamingClanListSchema = z.array(
-  z.object({
-    emblem_url: z.string(),
-    hex_color: z.string(),
-    id: z.number(),
-    name: z.string(),
-    tag: z.string(),
-    type: z.enum(["clan"]),
-    url: z.string(),
-  }),
-);
-export type WargamingClanList = z.infer<typeof WargamingClanListSchema>;
+export const WargamingFindClanItemSchema = z.object({
+  emblem_url: z.string(),
+  hex_color: z.string(),
+  id: z.number(),
+  name: z.string(),
+  tag: z.string(),
+  type: z.enum(["clan"]),
+  url: z.string(),
+});
 
-export const WargamingSearchAutocompleteResultSchema = z.object({
+export const WargamingFindClanResultSchema = z.object({
   _meta_: z.object({
     collection: z.enum(["search_autocomplete_result"]),
     total_accounts: z.number().nullable(),
     total_clans: z.number(),
   }),
-  search_autocomplete_result: WargamingClanListSchema,
+  search_autocomplete_result: z.array(WargamingFindClanItemSchema),
 });
-export type WargamingSearchAutocompleteResult = z.infer<
-  typeof WargamingSearchAutocompleteResultSchema
->;
 
-export const WargamingClanSchema = z.object({
+export const WargamingGetClanItemSchema = z.object({
   accepts_join_requests: z.boolean(),
   clan_id: z.number(),
   color: z.string(),
@@ -64,10 +58,8 @@ export const WargamingClanSchema = z.object({
   updated_at: z.number(),
 });
 
-export const WargamingClanGetSchema = z.object({
-  data: z.record(WargamingClanSchema),
+export const WargamingGetClanResultSchema = z.object({
+  data: z.record(WargamingGetClanItemSchema),
   meta: z.object({ count: z.number() }),
   status: z.enum(["ok"]),
 });
-
-export type WargamingGetClanResult = z.infer<typeof WargamingClanSchema>;

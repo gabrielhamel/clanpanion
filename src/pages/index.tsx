@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Box } from "@mui/material";
-import { ClanSearchInput, ClanSearchValue } from "@/components/ClanSearchInput";
+import { ClanSearchInput } from "@/components/ClanSearchInput";
+import { WargamingFindClanItem } from "@/services/wargaming/types";
 
 const Index = () => {
-  const [clan, setClan] = useState<ClanSearchValue | null>(null);
+  const [clan, setClan] = useState<WargamingFindClanItem | null>(null);
 
   return (
     <Box sx={{ padding: "10rem", width: "50rem" }}>

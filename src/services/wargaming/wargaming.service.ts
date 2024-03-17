@@ -1,59 +1,51 @@
+import { WargamingRegion } from "@/services/wargaming/region";
 import {
-  WargamingClanGetSchema,
-  WargamingClanList,
-  WargamingGetClanResult,
-  WargamingSearchAutocompleteResultSchema,
-} from "./schemas";
+  WargamingFindClanResultSchema,
+  WargamingGetClanResultSchema,
+} from "@/services/wargaming/schemas";
+import {
+  WargamingFindClanItem,
+  WargamingGetClanItem,
+} from "@/services/wargaming/types";
 
-export const WargamingService = {
-  getClan: async (id: number): Promise<WargamingGetClanResult> => {
+export class WargamingService {
+  constructor(
+    private readonly applicationId: string,
+    private readonly region: WargamingRegion,
+  ) {}
+
+  async getClan(clanId: number): Promise<WargamingGetClanItem> {
     const params = new URLSearchParams({
-      application_id: "330f82b8c534d7ccd3eee5fb23980bef",
-      clan_id: id.toString(),
+      application_id: this.applicationId,
+      clan_id: clanId.toString(),
     });
 
     const url = new URL(
-      `https://api.worldoftanks.eu/wot/clans/info/?${params}`,
+      `https://${this.region.apiDomain}/wot/clans/info/?${params}`,
     );
 
     const body = await fetch(url);
     const json = await body.json();
 
-    const getClanResponse = WargamingClanGetSchema.parse(json);
+    const getClanResponse = WargamingGetClanResultSchema.parse(json);
 
-    return getClanResponse.data[id.toString()];
-  },
-  searchClans: async (searchValue: string): Promise<WargamingClanList> => {
-    if (searchValue.length < 2) {
-      return [];
-    }
+    return getClanResponse.data[clanId.toString()];
+  }
 
+  async findClan(name: string): Promise<WargamingFindClanItem[]> {
     const params = new URLSearchParams({
-      search: searchValue,
+      search: name,
       type: "clans",
     });
 
     const url = new URL(
-      `https://eu.wargaming.net/clans/wot/search/api/autocomplete/?${params}`,
+      `https://${this.region.websiteDomain}/clans/wot/search/api/autocomplete/?${params}`,
     );
 
-    let json: unknown;
-    try {
-      const body = await fetch(url);
-      json = await body.json();
+    const body = await fetch(url);
+    const json = await body.json();
 
-      if (body.status !== 200) {
-        console.error("API Error", json);
-        return [];
-      }
-    } catch (e) {
-      console.error("HTTP error", e);
-      return [];
-    }
-
-    const searchClanResponse =
-      WargamingSearchAutocompleteResultSchema.parse(json);
-
+    const searchClanResponse = WargamingFindClanResultSchema.parse(json);
     return searchClanResponse.search_autocomplete_result;
-  },
-};
+  }
+}

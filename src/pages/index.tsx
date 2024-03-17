@@ -1,19 +1,21 @@
 import { useState } from "react";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { ClanSearchInput } from "@/components/ClanSearchInput";
-import { WargamingRegion } from "@/services/wargaming/region";
+import { useRegion } from "@/hooks/useRegion";
 import { WargamingFindClanItem } from "@/services/wargaming/types";
 
 const Index = () => {
   const [clan, setClan] = useState<WargamingFindClanItem | null>(null);
 
+  const { switchRegion } = useRegion();
+
   return (
     <Box sx={{ padding: "10rem", width: "50rem" }}>
-      <ClanSearchInput
-        onChange={setClan}
-        value={clan}
-        region={WargamingRegion.EU}
-      />
+      <Button onClick={() => switchRegion("EU")}>EU</Button>
+      <Button onClick={() => switchRegion("ASIA")}>ASIA</Button>
+      <Button onClick={() => switchRegion("NA")}>NA</Button>
+
+      <ClanSearchInput onChange={setClan} value={clan} />
     </Box>
   );
 };

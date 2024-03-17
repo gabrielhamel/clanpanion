@@ -1,8 +1,7 @@
-export enum WargamingRegion {
-  EU = "EU",
-  NA = "NA",
-  ASIA = "ASIA",
-}
+import { z } from "zod";
+
+export const WargamingRegionSchema = z.enum(["EU", "NA", "ASIA"]);
+export type WargamingRegion = z.infer<typeof WargamingRegionSchema>;
 
 export type WargamingRegionInfo = {
   apiDomain: string;
@@ -10,15 +9,15 @@ export type WargamingRegionInfo = {
 };
 
 export const regions: Record<WargamingRegion, WargamingRegionInfo> = {
-  [WargamingRegion.EU]: {
-    apiDomain: "api.worldoftanks.eu",
-    websiteDomain: "eu.wargaming.net",
-  },
-  [WargamingRegion.ASIA]: {
+  ASIA: {
     apiDomain: "api.worldoftanks.asia",
     websiteDomain: "asia.wargaming.net",
   },
-  [WargamingRegion.NA]: {
+  EU: {
+    apiDomain: "api.worldoftanks.eu",
+    websiteDomain: "eu.wargaming.net",
+  },
+  NA: {
     apiDomain: "api.worldoftanks.com",
     websiteDomain: "na.wargaming.net",
   },

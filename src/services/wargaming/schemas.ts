@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { WargamingRegion } from "@/services/wargaming/region";
 
 export const WargamingFindClanItemSchema = z.object({
   emblem_url: z.string(),
@@ -64,5 +63,3 @@ export const WargamingGetClanResultSchema = z.object({
   meta: z.object({ count: z.number() }),
   status: z.enum(["ok"]),
 });
-
-export const WargamingRegionSchema = z.nativeEnum(WargamingRegion);

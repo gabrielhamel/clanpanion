@@ -3,8 +3,9 @@ import { Autocomplete, Box, debounce, TextField } from "@mui/material";
 import { skipToken } from "@tanstack/react-query";
 import Image from "next/image";
 import { apiClient } from "@/backend/client";
+import { useRegion } from "@/hooks/useRegion";
 import { useTranslation } from "@/hooks/useTranslation";
-import { regions, WargamingRegion } from "@/services/wargaming/region";
+import { regions } from "@/services/wargaming/region";
 import { WargamingFindClanItem } from "@/services/wargaming/types";
 import {
   ClanDetailLineContainer,
@@ -16,17 +17,17 @@ import {
 const ClanSearchInput = ({
   onChange,
   value,
-  region,
 }: {
   onChange: (clan: WargamingFindClanItem | null) => void;
   value: WargamingFindClanItem | null;
-  region: WargamingRegion;
 }) => {
   const { t } = useTranslation();
+  const { currentRegion } = useRegion();
+
   const [searchValue, setSearchValue] = useState("");
 
   const { data, isLoading } = apiClient.clan.find.useQuery(
-    searchValue ? { name: searchValue, region } : skipToken,
+    searchValue ? { name: searchValue, region: currentRegion } : skipToken,
   );
 
   const clans = data ?? [];
@@ -60,7 +61,7 @@ const ClanSearchInput = ({
               ...params.InputProps,
               startAdornment: (
                 <ClanInput>
-                  <ClanEmblem emblemUrl={value.emblem_url} region={region} />
+                  <ClanEmblem emblemUrl={value.emblem_url} />
                   <ClanTag color={value.hex_color} tag={value.tag} />
                 </ClanInput>
               ),
@@ -78,7 +79,6 @@ const ClanSearchInput = ({
               onChange(clanId);
             }}
             clan={option}
-            region={region}
           />
         </ClanOption>
       )}
@@ -89,14 +89,12 @@ const ClanSearchInput = ({
 const ClanDetailLine = ({
   clan,
   onClick,
-  region,
 }: {
   clan: WargamingFindClanItem;
-  region: WargamingRegion;
   onClick: (clan: WargamingFindClanItem) => void;
 }) => (
   <ClanDetailLineContainer onClick={() => onClick(clan)}>
-    <ClanEmblem emblemUrl={clan.emblem_url} region={region} />
+    <ClanEmblem emblemUrl={clan.emblem_url} />
     <Box>
       <ClanTag tag={clan.tag} color={clan.hex_color} />
       <Box>{clan.name}</Box>
@@ -110,21 +108,19 @@ const ClanTag = ({ tag, color }: { tag: string; color: string }) => (
   </Box>
 );
 
-const ClanEmblem = ({
-  emblemUrl,
-  region,
-}: {
-  emblemUrl: string;
-  region: WargamingRegion;
-}) => (
-  <ClanEmblemContainer>
-    <Image
-      alt="clan-emblem"
-      width={32}
-      height={32}
-      src={`https://${regions[region].websiteDomain}${emblemUrl}`}
-    />
-  </ClanEmblemContainer>
-);
+const ClanEmblem = ({ emblemUrl }: { emblemUrl: string }) => {
+  const { currentRegion } = useRegion();
+
+  return (
+    <ClanEmblemContainer>
+      <Image
+        alt="clan-emblem"
+        width={32}
+        height={32}
+        src={`https://${regions[currentRegion].websiteDomain}${emblemUrl}`}
+      />
+    </ClanEmblemContainer>
+  );
+};
 
 export default ClanSearchInput;

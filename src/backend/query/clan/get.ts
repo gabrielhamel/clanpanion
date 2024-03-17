@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { trpc } from "@/backend/trpc";
-import { WargamingRegionSchema } from "@/services/wargaming/schemas";
+import { WargamingRegionSchema } from "@/services/wargaming/region";
 
 export const get = trpc.procedure
   .input(

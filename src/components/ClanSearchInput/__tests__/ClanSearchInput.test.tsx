@@ -2,7 +2,6 @@ import { userEvent } from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { RouterOutput } from "@/backend/router";
 import { ClanSearchInput } from "@/components/ClanSearchInput";
-import { WargamingRegion } from "@/services/wargaming/region";
 import { mockTRPCQueryResponse } from "@/tests/mocks/client";
 import { act, render } from "@/tests/render";
 
@@ -19,13 +18,10 @@ describe("Clan search input component", () => {
         url: "fake-clan-url",
       },
     ]);
+
     const onClanSelected = vi.fn();
     const { getByRole, getByText } = render(
-      <ClanSearchInput
-        onChange={onClanSelected}
-        value={null}
-        region={WargamingRegion.EU}
-      />,
+      <ClanSearchInput onChange={onClanSelected} value={null} />,
     );
     const input = getByRole("combobox");
 

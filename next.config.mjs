@@ -7,6 +7,16 @@ const nextConfig = {
       hostname: "eu.wargaming.net",
       protocol: "https",
       pathname: "/**"
+    }, {
+      port: "",
+      hostname: "asia.wargaming.net",
+      protocol: "https",
+      pathname: "/**"
+    }, {
+      port: "",
+      hostname: "na.wargaming.net",
+      protocol: "https",
+      pathname: "/**"
     }]
   }
 };

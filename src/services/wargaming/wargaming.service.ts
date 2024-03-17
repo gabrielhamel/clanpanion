@@ -1,4 +1,4 @@
-import { WargamingRegion } from "@/services/wargaming/region";
+import { regions, WargamingRegion } from "@/services/wargaming/region";
 import {
   WargamingFindClanResultSchema,
   WargamingGetClanResultSchema,
@@ -9,19 +9,21 @@ import {
 } from "@/services/wargaming/types";
 
 export class WargamingService {
-  constructor(
-    private readonly applicationId: string,
-    private readonly region: WargamingRegion,
-  ) {}
+  constructor(private readonly applicationId: string) {}
 
-  async getClan(clanId: number): Promise<WargamingGetClanItem> {
+  async getClan(
+    clanId: number,
+    region: WargamingRegion,
+  ): Promise<WargamingGetClanItem> {
+    const regionInfo = regions[region];
+
     const params = new URLSearchParams({
       application_id: this.applicationId,
       clan_id: clanId.toString(),
     });
 
     const url = new URL(
-      `https://${this.region.apiDomain}/wot/clans/info/?${params}`,
+      `https://${regionInfo.apiDomain}/wot/clans/info/?${params}`,
     );
 
     const body = await fetch(url);
@@ -32,14 +34,19 @@ export class WargamingService {
     return getClanResponse.data[clanId.toString()];
   }
 
-  async findClan(name: string): Promise<WargamingFindClanItem[]> {
+  async findClan(
+    name: string,
+    region: WargamingRegion,
+  ): Promise<WargamingFindClanItem[]> {
+    const regionInfo = regions[region];
+
     const params = new URLSearchParams({
       search: name,
       type: "clans",
     });
 
     const url = new URL(
-      `https://${this.region.websiteDomain}/clans/wot/search/api/autocomplete/?${params}`,
+      `https://${regionInfo.websiteDomain}/clans/wot/search/api/autocomplete/?${params}`,
     );
 
     const body = await fetch(url);

@@ -4,7 +4,7 @@ import { skipToken } from "@tanstack/react-query";
 import Image from "next/image";
 import { apiClient } from "@/backend/client";
 import { useTranslation } from "@/hooks/useTranslation";
-import { eu } from "@/services/wargaming/region";
+import { regions, WargamingRegion } from "@/services/wargaming/region";
 import { WargamingFindClanItem } from "@/services/wargaming/types";
 import {
   ClanDetailLineContainer,
@@ -16,15 +16,17 @@ import {
 const ClanSearchInput = ({
   onChange,
   value,
+  region,
 }: {
   onChange: (clan: WargamingFindClanItem | null) => void;
   value: WargamingFindClanItem | null;
+  region: WargamingRegion;
 }) => {
   const { t } = useTranslation();
   const [searchValue, setSearchValue] = useState("");
 
   const { data, isLoading } = apiClient.clan.find.useQuery(
-    searchValue ? { name: searchValue } : skipToken,
+    searchValue ? { name: searchValue, region } : skipToken,
   );
 
   const clans = data ?? [];
@@ -58,7 +60,7 @@ const ClanSearchInput = ({
               ...params.InputProps,
               startAdornment: (
                 <ClanInput>
-                  <ClanEmblem emblemUrl={value.emblem_url} />
+                  <ClanEmblem emblemUrl={value.emblem_url} region={region} />
                   <ClanTag color={value.hex_color} tag={value.tag} />
                 </ClanInput>
               ),
@@ -76,6 +78,7 @@ const ClanSearchInput = ({
               onChange(clanId);
             }}
             clan={option}
+            region={region}
           />
         </ClanOption>
       )}
@@ -86,12 +89,14 @@ const ClanSearchInput = ({
 const ClanDetailLine = ({
   clan,
   onClick,
+  region,
 }: {
   clan: WargamingFindClanItem;
+  region: WargamingRegion;
   onClick: (clan: WargamingFindClanItem) => void;
 }) => (
   <ClanDetailLineContainer onClick={() => onClick(clan)}>
-    <ClanEmblem emblemUrl={clan.emblem_url} />
+    <ClanEmblem emblemUrl={clan.emblem_url} region={region} />
     <Box>
       <ClanTag tag={clan.tag} color={clan.hex_color} />
       <Box>{clan.name}</Box>
@@ -105,13 +110,19 @@ const ClanTag = ({ tag, color }: { tag: string; color: string }) => (
   </Box>
 );
 
-const ClanEmblem = ({ emblemUrl }: { emblemUrl: string }) => (
+const ClanEmblem = ({
+  emblemUrl,
+  region,
+}: {
+  emblemUrl: string;
+  region: WargamingRegion;
+}) => (
   <ClanEmblemContainer>
     <Image
       alt="clan-emblem"
       width={32}
       height={32}
-      src={`https://${eu.websiteDomain}${emblemUrl}`}
+      src={`https://${regions[region].websiteDomain}${emblemUrl}`}
     />
   </ClanEmblemContainer>
 );

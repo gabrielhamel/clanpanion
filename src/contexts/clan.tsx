@@ -1,5 +1,6 @@
 import { createContext, ReactNode } from "react";
 import { apiClient } from "@/backend/client";
+import { WargamingRegion } from "@/services/wargaming/region";
 import { WargamingGetClanItem } from "@/services/wargaming/types";
 
 export const ClanContext = createContext<{
@@ -17,7 +18,10 @@ export const ClanProvider = ({
   children: ReactNode;
   id: number;
 }) => {
-  const { data, isLoading } = apiClient.clan.get.useQuery({ id });
+  const { data, isLoading } = apiClient.clan.get.useQuery({
+    id,
+    region: WargamingRegion.EU,
+  });
 
   return (
     <ClanContext.Provider

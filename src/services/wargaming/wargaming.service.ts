@@ -1,9 +1,28 @@
 import {
+  WargamingClanGetSchema,
   WargamingClanList,
+  WargamingGetClanResult,
   WargamingSearchAutocompleteResultSchema,
 } from "./schemas";
 
 export const WargamingService = {
+  getClan: async (id: number): Promise<WargamingGetClanResult> => {
+    const params = new URLSearchParams({
+      application_id: "330f82b8c534d7ccd3eee5fb23980bef",
+      clan_id: id.toString(),
+    });
+
+    const url = new URL(
+      `https://api.worldoftanks.eu/wot/clans/info/?${params}`,
+    );
+
+    const body = await fetch(url);
+    const json = await body.json();
+
+    const getClanResponse = WargamingClanGetSchema.parse(json);
+
+    return getClanResponse.data[id.toString()];
+  },
   searchClans: async (searchValue: string): Promise<WargamingClanList> => {
     if (searchValue.length < 2) {
       return [];

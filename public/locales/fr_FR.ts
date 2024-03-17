@@ -1,5 +1,7 @@
 const translations = {
-  hello: "Test vercel",
+  "clan.action.search": "Rechercher un clan",
+  "state.empty": "Aucuns résultats",
+  "state.loading": "Chargement",
 } as const;
 
 type WithOrWithoutPlural<K> = K extends unknown

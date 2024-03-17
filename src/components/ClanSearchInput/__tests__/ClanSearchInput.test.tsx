@@ -1,12 +1,12 @@
 import { userEvent } from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { RouterOutput } from "@/backend/router";
 import { ClanSearchInput } from "@/components/ClanSearchInput";
 import { mockTRPCQueryResponse } from "@/tests/mocks/client";
-import { render } from "@/tests/render";
+import { act, render } from "@/tests/render";
 
 describe("Clan search input component", () => {
-  it("Should find the searched clan", async () => {
+  it("Should find the searched clan and select it", async () => {
     mockTRPCQueryResponse<RouterOutput["clan"]["search"]>("clan.search", [
       {
         emblem_url: "fake-emblem-url",
@@ -18,12 +18,24 @@ describe("Clan search input component", () => {
         url: "fake-clan-url",
       },
     ]);
-
-    const { getByRole, queryByText } = render(<ClanSearchInput />);
+    const onClanSelected = vi.fn();
+    const { getByRole, getByText } = render(
+      <ClanSearchInput onChange={onClanSelected} value={null} />,
+    );
     const input = getByRole("combobox");
 
     await userEvent.type(input, "cringo");
+    const option = getByText(/cringo-clan-name/);
+    act(() => option.click());
 
-    expect(queryByText(/cringo-clan-name/)).toBeInTheDocument();
+    expect(onClanSelected).toHaveBeenCalledWith({
+      emblem_url: "fake-emblem-url",
+      hex_color: "#1EFF87",
+      id: 0,
+      name: "cringo-clan-name",
+      tag: "CRNGO",
+      type: "clan",
+      url: "fake-clan-url",
+    });
   });
 });

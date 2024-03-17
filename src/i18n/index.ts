@@ -6,8 +6,8 @@ const i18nInstance = i18n.createInstance();
 
 const { t } = i18nInstance;
 
-(() =>
-  void i18nInstance.use(initReactI18next).init({
+void (() =>
+  i18nInstance.use(initReactI18next).init({
     fallbackLng: "fr",
     interpolation: {
       escapeValue: false,

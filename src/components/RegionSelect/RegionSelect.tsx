@@ -24,6 +24,7 @@ const RegionSelect = () => {
     <StyledSelect
       onChange={(e) => handleOnChange(e.target.value)}
       value={currentRegion}
+      size="small"
     >
       {Object.keys(availableRegions).map((region) => (
         <MenuItem key={region} value={region}>

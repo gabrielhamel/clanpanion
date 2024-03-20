@@ -5,10 +5,12 @@ import { WargamingGetClanItem } from "@/services/wargaming/types";
 
 export const ClanContext = createContext<{
   clan: WargamingGetClanItem | undefined;
-  loading: boolean;
+  isLoading: boolean;
+  isError: boolean;
 }>({
   clan: undefined,
-  loading: true,
+  isError: false,
+  isLoading: true,
 });
 
 export const ClanProvider = ({
@@ -20,7 +22,7 @@ export const ClanProvider = ({
 }) => {
   const { currentRegion } = useRegion();
 
-  const { data, isLoading } = apiClient.clan.get.useQuery({
+  const { data, isLoading, isError } = apiClient.clan.get.useQuery({
     id,
     region: currentRegion,
   });
@@ -29,7 +31,8 @@ export const ClanProvider = ({
     <ClanContext.Provider
       value={{
         clan: data,
-        loading: isLoading,
+        isError,
+        isLoading,
       }}
     >
       {children}

@@ -1,48 +1,79 @@
-import { AppBar as MuiAppBar, Box, Toolbar, Typography } from "@mui/material";
+import { MouseEventHandler, useReducer } from "react";
+import { Search } from "@mui/icons-material";
+import { AppBar as MuiAppBar, Backdrop, Typography } from "@mui/material";
 import { useRouter } from "next/router";
-import { z } from "zod";
+import {
+  StyledLink,
+  StyledSearchInputContainer,
+  StyledSpacer,
+  StyledTextField,
+  StyledToolbar,
+} from "@/components/AppBar/styles";
 import { ClanSearchInput } from "@/components/ClanSearchInput";
 import { RegionSelect } from "@/components/RegionSelect";
 
-const AppBar = () => {
+const ClanSearchBackDrop = ({
+  isOpen,
+  onLeave,
+}: {
+  isOpen: boolean;
+  onLeave: () => void;
+}) => {
   const router = useRouter();
-  const { clanId } = router.query;
-
-  const numericClanId = clanId ? z.coerce.number().parse(clanId) : null;
 
   const handleOnClanChange = (id: number | null) => {
+    onLeave();
+
     if (id) {
       void router.push(`/clan/${id}`);
     }
   };
 
+  const handleOnBackDropClick: MouseEventHandler<HTMLElement> = (e) => {
+    if ((e.target as HTMLElement).id === "clan-search-backdrop") {
+      return onLeave();
+    }
+  };
+
+  return (
+    <Backdrop
+      open={isOpen}
+      onClick={handleOnBackDropClick}
+      id="clan-search-backdrop"
+    >
+      <StyledSearchInputContainer>
+        <ClanSearchInput onChange={handleOnClanChange} value={null} />
+      </StyledSearchInputContainer>
+    </Backdrop>
+  );
+};
+
+const AppBar = () => {
+  const [isBackDropVisible, toggleBackDrop] = useReducer(
+    (value) => !value,
+    false,
+  );
+
   return (
     <MuiAppBar position="static">
-      <Toolbar>
-        <Box
-          sx={{
-            alignItems: "center",
-            display: "flex",
-            gap: "3rem",
-            width: "100%",
+      <StyledToolbar>
+        <StyledLink href="/">
+          <Typography variant="h6" color="white">
+            Clanpanion
+          </Typography>
+        </StyledLink>
+        <StyledSpacer />
+        <StyledTextField
+          placeholder="Find a clan"
+          onClick={toggleBackDrop}
+          size="small"
+          InputProps={{
+            endAdornment: <Search />,
           }}
-        >
-          <Typography variant="h6">Clanpanion</Typography>
-          <Box
-            sx={{
-              flexGrow: 1,
-            }}
-          >
-            <ClanSearchInput
-              onChange={handleOnClanChange}
-              value={numericClanId}
-            />
-          </Box>
-          <Box>
-            <RegionSelect />
-          </Box>
-        </Box>
-      </Toolbar>
+        />
+        <RegionSelect />
+      </StyledToolbar>
+      <ClanSearchBackDrop isOpen={isBackDropVisible} onLeave={toggleBackDrop} />
     </MuiAppBar>
   );
 };

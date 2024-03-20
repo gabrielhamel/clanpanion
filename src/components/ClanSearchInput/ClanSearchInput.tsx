@@ -9,14 +9,12 @@ import { WargamingFindClanItem } from "@/services/wargaming/types";
 import {
   ClanDetailLineContainer,
   ClanEmblemContainer,
-  ClanInput,
   ClanOption,
   StyledTextField,
 } from "./styles";
 
 const ClanSearchInput = ({
   onChange,
-  value,
 }: {
   onChange: (clanId: number | null) => void;
   value: number | null;
@@ -29,20 +27,7 @@ const ClanSearchInput = ({
     searchValue ? { name: searchValue, region: currentRegion } : skipToken,
   );
 
-  const { data: clan } = apiClient.clan.get.useQuery(
-    value ? { id: value, region: currentRegion } : skipToken,
-  );
-
   const clans = data ?? [];
-
-  const currentClanOption = clans.find(({ id }) => id === value);
-  const currentClanEmblem = clan
-    ? clan.emblems.x32.portal
-    : `https://${regions[currentRegion].websiteDomain}${currentClanOption?.emblem_url ?? ""}`;
-  const currentClanTag = clan ? clan.tag : currentClanOption?.tag ?? "";
-  const currentClanColor = clan
-    ? clan.color
-    : currentClanOption?.hex_color ?? "";
 
   return (
     <Autocomplete
@@ -64,25 +49,9 @@ const ClanSearchInput = ({
       onChange={(_, newValue) => {
         onChange(newValue?.id ?? null);
       }}
-      renderInput={(params) =>
-        value ? (
-          <StyledTextField
-            {...params}
-            placeholder="Find a clan"
-            InputProps={{
-              ...params.InputProps,
-              startAdornment: (
-                <ClanInput>
-                  <ClanEmblem emblemUrl={currentClanEmblem} />
-                  <ClanTag color={currentClanColor} tag={currentClanTag} />
-                </ClanInput>
-              ),
-            }}
-          />
-        ) : (
-          <StyledTextField {...params} placeholder="Find a clan" />
-        )
-      }
+      renderInput={(params) => (
+        <StyledTextField {...params} placeholder="Find a clan" />
+      )}
       renderOption={(props, option) => (
         <ClanOption {...props} key={option.id}>
           <ClanDetailLine

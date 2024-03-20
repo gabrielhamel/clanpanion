@@ -19,7 +19,6 @@ module.exports = {
     ".eslintrc.js",
     "public/mockServiceWorker.js",
     "commitlint.config.js",
-    "next-i18next.config.js",
   ],
   rules: {
     "no-unused-vars": "off",
@@ -34,14 +33,6 @@ module.exports = {
     "@typescript-eslint/no-restricted-imports": [
       "error",
       {
-        paths: [
-          {
-            name: "react-i18next",
-            importNames: ["useTranslation"],
-            message:
-              'Please use the useTranslation hook from "next-i18next" instead.',
-          },
-        ],
         patterns: [
           {
             group: ["*.tsx", "*.ts", "*.js"],

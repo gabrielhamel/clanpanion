@@ -1,6 +1,5 @@
 import { CssBaseline } from "@mui/material";
 import type { AppProps } from "next/app";
-import { appWithTranslation } from "next-i18next";
 import { SnackbarProvider } from "notistack";
 import { AppBar } from "@/components/AppBar";
 import { RegionProvider } from "@/contexts/region";
@@ -22,4 +21,4 @@ const App = ({ Component, pageProps }: AppProps) => (
   </SnackbarProvider>
 );
 
-export default appWithTranslation(App);
+export default App;

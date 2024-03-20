@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Autocomplete, Box, debounce } from "@mui/material";
 import { skipToken } from "@tanstack/react-query";
 import Image from "next/image";
-import { useTranslation } from "next-i18next";
 import { apiClient } from "@/backend/client";
 import { useRegion } from "@/hooks/useRegion";
 import { regions } from "@/services/wargaming/region";
@@ -22,7 +21,6 @@ const ClanSearchInput = ({
   onChange: (clanId: number | null) => void;
   value: number | null;
 }) => {
-  const { t } = useTranslation();
   const { currentRegion } = useRegion();
 
   const [searchValue, setSearchValue] = useState("");
@@ -54,8 +52,8 @@ const ClanSearchInput = ({
       clearOnEscape={true}
       loading={findLoading}
       autoComplete={true}
-      loadingText={`${t("state.loading")}...`}
-      noOptionsText={t("state.empty")}
+      loadingText="Loading..."
+      noOptionsText="No results"
       filterOptions={(clan) => clan}
       isOptionEqualToValue={(option, newValue) => option.id === newValue.id}
       options={clans}
@@ -70,7 +68,7 @@ const ClanSearchInput = ({
         value ? (
           <StyledTextField
             {...params}
-            placeholder={t("clan.action.search")}
+            placeholder="Find a clan"
             InputProps={{
               ...params.InputProps,
               startAdornment: (
@@ -82,7 +80,7 @@ const ClanSearchInput = ({
             }}
           />
         ) : (
-          <StyledTextField {...params} placeholder={t("clan.action.search")} />
+          <StyledTextField {...params} placeholder="Find a clan" />
         )
       }
       renderOption={(props, option) => (

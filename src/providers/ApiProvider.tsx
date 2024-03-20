@@ -6,17 +6,15 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
-import { useTranslation } from "next-i18next";
 import { useSnackbar } from "notistack";
 import { apiClient } from "@/backend/client";
 
 const ApiProvider = ({ children }: { children: ReactNode }) => {
   const { enqueueSnackbar } = useSnackbar();
-  const { t } = useTranslation();
 
   const handleError = (error: Error) => {
     console.error(error);
-    enqueueSnackbar(t("state.error.generic"), { variant: "error" });
+    enqueueSnackbar("Oups ! An error has occurred", { variant: "error" });
   };
 
   const [queryClient] = useState(

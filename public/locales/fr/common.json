@@ -1,5 +1,6 @@
 {
   "clan.action.search": "Rechercher un clan",
   "state.empty": "Aucuns résultats",
-  "state.loading": "Chargement"
+  "state.loading": "Chargement",
+  "state.error.generic": "Oups ! Une erreur s'est produite"
 }

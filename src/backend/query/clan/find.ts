@@ -10,6 +10,7 @@ export const find = trpc.procedure
     }),
   )
   .query(({ input: { name, region }, ctx }) => {
+    throw new Error("LOLILO");
     if (name.length < 2) {
       return [];
     }

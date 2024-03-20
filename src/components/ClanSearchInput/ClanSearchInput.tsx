@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Autocomplete, Box, debounce, TextField } from "@mui/material";
+import { Autocomplete, Box, debounce } from "@mui/material";
 import { skipToken } from "@tanstack/react-query";
 import Image from "next/image";
 import { useTranslation } from "next-i18next";
@@ -12,6 +12,7 @@ import {
   ClanEmblemContainer,
   ClanInput,
   ClanOption,
+  StyledTextField,
 } from "./styles";
 
 const ClanSearchInput = ({
@@ -67,9 +68,9 @@ const ClanSearchInput = ({
       }}
       renderInput={(params) =>
         value ? (
-          <TextField
+          <StyledTextField
             {...params}
-            label={t("clan.action.search")}
+            placeholder={t("clan.action.search")}
             InputProps={{
               ...params.InputProps,
               startAdornment: (
@@ -81,7 +82,7 @@ const ClanSearchInput = ({
             }}
           />
         ) : (
-          <TextField {...params} label={t("clan.action.search")} />
+          <StyledTextField {...params} placeholder={t("clan.action.search")} />
         )
       }
       renderOption={(props, option) => (

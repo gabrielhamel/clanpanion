@@ -2,6 +2,7 @@ import { CssBaseline } from "@mui/material";
 import type { AppProps } from "next/app";
 import { appWithTranslation } from "next-i18next";
 import { SnackbarProvider } from "notistack";
+import { AppBar } from "@/components/AppBar";
 import { RegionProvider } from "@/contexts/region";
 import ApiProvider from "@/providers/ApiProvider";
 import "@fontsource/roboto/300.css";
@@ -14,6 +15,7 @@ const App = ({ Component, pageProps }: AppProps) => (
     <ApiProvider>
       <RegionProvider>
         <CssBaseline />
+        <AppBar />
         <Component {...pageProps} />
       </RegionProvider>
     </ApiProvider>

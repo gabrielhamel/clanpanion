@@ -1,16 +1,4 @@
-import {
-  Box,
-  inputBaseClasses,
-  styled,
-  TextField,
-  textFieldClasses,
-} from "@mui/material";
-
-export const StyledTextField = styled(TextField)({
-  [`&.${textFieldClasses.root} .${inputBaseClasses.root}`]: {
-    backgroundColor: "white",
-  },
-});
+import { Box, styled } from "@mui/material";
 
 export const ClanOption = styled("li")({
   margin: 0,

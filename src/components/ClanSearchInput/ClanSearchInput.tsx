@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Autocomplete, Box, debounce } from "@mui/material";
+import { Autocomplete, Box, debounce, TextField } from "@mui/material";
 import { skipToken } from "@tanstack/react-query";
 import Image from "next/image";
 import { apiClient } from "@/backend/client";
@@ -10,7 +10,6 @@ import {
   ClanDetailLineContainer,
   ClanEmblemContainer,
   ClanOption,
-  StyledTextField,
 } from "./styles";
 
 const ClanSearchInput = ({
@@ -50,7 +49,7 @@ const ClanSearchInput = ({
         onChange(newValue?.id ?? null);
       }}
       renderInput={(params) => (
-        <StyledTextField {...params} placeholder="Find a clan" />
+        <TextField {...params} placeholder="Find a clan" size="medium" />
       )}
       renderOption={(props, option) => (
         <ClanOption {...props} key={option.id}>

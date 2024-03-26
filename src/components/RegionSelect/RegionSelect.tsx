@@ -1,5 +1,4 @@
-import { MenuItem } from "@mui/material";
-import { StyledSelect } from "@/components/RegionSelect/styles";
+import { MenuItem, Select } from "@mui/material";
 import { useRegion } from "@/hooks/useRegion";
 import {
   WargamingRegion,
@@ -21,16 +20,17 @@ const RegionSelect = () => {
   };
 
   return (
-    <StyledSelect
+    <Select
       onChange={(e) => handleOnChange(e.target.value)}
       value={currentRegion}
+      renderValue={(value) => value}
     >
       {Object.keys(availableRegions).map((region) => (
         <MenuItem key={region} value={region}>
           {availableRegions[region as WargamingRegion]}
         </MenuItem>
       ))}
-    </StyledSelect>
+    </Select>
   );
 };
 

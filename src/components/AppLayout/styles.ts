@@ -7,7 +7,7 @@ export const StyledSpacer = styled(Box)({
 export const StyledToolbar = styled(Toolbar)({
   alignItems: "center",
   display: "flex",
-  gap: "3rem",
+  gap: "1rem",
   width: "100%",
 });
 

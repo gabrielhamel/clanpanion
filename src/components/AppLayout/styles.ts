@@ -14,3 +14,9 @@ export const StyledToolbar = styled(Toolbar)({
 export const StyledSearchInputContainer = styled(Box)({
   width: "70vw",
 });
+
+export const StyledBackground = styled(Box)({
+  backgroundImage:
+    'linear-gradient(to bottom, rgb(150 150 150 / 50%), rgb(20 20 20 / 100%)), url("/background/campinovka.webp")',
+  height: "100vh",
+});

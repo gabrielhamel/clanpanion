@@ -8,7 +8,7 @@ export const theme = createTheme({
       },
       styleOverrides: {
         root: {
-          borderRadius: "2rem",
+          borderRadius: "1rem",
         },
       },
     },
@@ -19,7 +19,7 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           "& .MuiInputBase-root": {
-            borderRadius: "2rem",
+            borderRadius: "1rem",
           },
         },
       },

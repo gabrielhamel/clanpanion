@@ -2,7 +2,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { SnackbarProvider } from "notistack";
-import { AppBar } from "@/components/AppBar";
+import { AppLayout } from "@/components/AppLayout";
 import { RegionProvider } from "@/contexts/region";
 import ApiProvider from "@/providers/ApiProvider";
 import { theme } from "@/theme";
@@ -20,8 +20,9 @@ const App = ({ Component, pageProps }: AppProps) => (
             <title>Clanpanion</title>
           </Head>
           <CssBaseline />
-          <AppBar />
-          <Component {...pageProps} />
+          <AppLayout>
+            <Component {...pageProps} />
+          </AppLayout>
         </RegionProvider>
       </ApiProvider>
     </SnackbarProvider>

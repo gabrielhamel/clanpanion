@@ -1,8 +1,8 @@
 import { MouseEventHandler } from "react";
 import { Backdrop } from "@mui/material";
 import { useRouter } from "next/router";
-import { StyledSearchInputContainer } from "@/components/AppBar/styles";
 import { ClanSearchInput } from "@/components/ClanSearchInput";
+import { StyledSearchInputContainer } from "./styles";
 
 const ClanSearchBackDrop = ({
   isOpen,

@@ -28,6 +28,8 @@ const ClanSearchInput = ({
 
   const clans = data ?? [];
 
+  console.log("mounted");
+
   return (
     <Autocomplete
       selectOnFocus={true}
@@ -49,7 +51,12 @@ const ClanSearchInput = ({
         onChange(newValue?.id ?? null);
       }}
       renderInput={(params) => (
-        <TextField {...params} placeholder="Find a clan" size="medium" />
+        <TextField
+          {...params}
+          autoFocus
+          placeholder="Search a clan"
+          size="medium"
+        />
       )}
       renderOption={(props, option) => (
         <ClanOption {...props} key={option.id}>

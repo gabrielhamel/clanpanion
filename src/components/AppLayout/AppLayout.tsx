@@ -1,52 +1,61 @@
-import { ReactNode, useReducer } from "react";
+import { ReactNode, useState } from "react";
 import { Search } from "@mui/icons-material";
 import { AppBar as MuiAppBar, TextField } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import { RegionSelect } from "@/components/RegionSelect";
 import ClanSearchBackDrop from "./ClanSearchBackdrop";
-import {
-  StyledBackground,
-  StyledContent,
-  StyledSpacer,
-  StyledToolbar,
-} from "./styles";
+import { StyledBackground, StyledLogoContainer, StyledToolbar } from "./styles";
 
 const AppLayout = ({ children }: { children: ReactNode }) => {
-  const [isBackDropVisible, toggleBackDrop] = useReducer(
-    (value) => !value,
-    false,
+  return (
+    <>
+      <AppBar />
+      <StyledBackground />
+      {children}
+    </>
   );
+};
+
+const AppBar = () => {
+  const [isBackDropVisible, setBackDropVisibility] = useState(false);
+
+  const handleOnBackDropLeave = () => {
+    setBackDropVisibility(false);
+  };
+  const handleOnBackDropEnter = () => {
+    setBackDropVisibility(true);
+  };
 
   return (
-    <StyledBackground>
+    <>
+      <ClanSearchBackDrop
+        isOpen={isBackDropVisible}
+        onLeave={handleOnBackDropLeave}
+      />
       <MuiAppBar position="static">
         <StyledToolbar>
-          <Link href="/">
-            <Image
-              src="/logo/9_destroyTimerDrownUI.webp"
-              alt="logo"
-              width={50}
-              height={50}
-            />
-          </Link>
-          <StyledSpacer />
+          <StyledLogoContainer>
+            <Link href="/">
+              <Image
+                src="/logo/9_destroyTimerDrownUI.webp"
+                alt="logo"
+                width={50}
+                height={50}
+              />
+            </Link>
+          </StyledLogoContainer>
           <TextField
-            placeholder="Find a clan"
-            onClick={toggleBackDrop}
+            placeholder="Search..."
+            onClick={handleOnBackDropEnter}
             InputProps={{
               endAdornment: <Search />,
             }}
           />
           <RegionSelect />
         </StyledToolbar>
-        <ClanSearchBackDrop
-          isOpen={isBackDropVisible}
-          onLeave={toggleBackDrop}
-        />
       </MuiAppBar>
-      <StyledContent>{children}</StyledContent>
-    </StyledBackground>
+    </>
   );
 };
 

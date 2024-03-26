@@ -1,8 +1,7 @@
 import { MouseEventHandler } from "react";
-import { Backdrop } from "@mui/material";
 import { useRouter } from "next/router";
 import { ClanSearchInput } from "@/components/ClanSearchInput";
-import { StyledSearchInputContainer } from "./styles";
+import { StyledBackdrop, StyledSearchInputContainer } from "./styles";
 
 const ClanSearchBackDrop = ({
   isOpen,
@@ -28,7 +27,9 @@ const ClanSearchBackDrop = ({
   };
 
   return (
-    <Backdrop
+    <StyledBackdrop
+      mountOnEnter={true}
+      unmountOnExit={true}
       open={isOpen}
       onClick={handleOnBackDropClick}
       id="clan-search-backdrop"
@@ -36,7 +37,7 @@ const ClanSearchBackDrop = ({
       <StyledSearchInputContainer>
         <ClanSearchInput onChange={handleOnClanChange} value={null} />
       </StyledSearchInputContainer>
-    </Backdrop>
+    </StyledBackdrop>
   );
 };
 

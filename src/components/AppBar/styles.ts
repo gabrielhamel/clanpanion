@@ -1,17 +1,4 @@
-import {
-  Box,
-  inputBaseClasses,
-  styled,
-  TextField,
-  textFieldClasses,
-  Toolbar,
-} from "@mui/material";
-
-export const StyledTextField = styled(TextField)({
-  [`&.${textFieldClasses.root} .${inputBaseClasses.root}`]: {
-    borderRadius: "2rem",
-  },
-});
+import { Box, styled, Toolbar } from "@mui/material";
 
 export const StyledSpacer = styled(Box)({
   flexGrow: 1,

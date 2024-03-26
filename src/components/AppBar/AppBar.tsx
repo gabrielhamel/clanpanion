@@ -1,12 +1,8 @@
 import { useReducer } from "react";
 import { Search } from "@mui/icons-material";
-import { AppBar as MuiAppBar, Typography } from "@mui/material";
+import { AppBar as MuiAppBar, TextField, Typography } from "@mui/material";
 import Link from "next/link";
-import {
-  StyledSpacer,
-  StyledTextField,
-  StyledToolbar,
-} from "@/components/AppBar/styles";
+import { StyledSpacer, StyledToolbar } from "@/components/AppBar/styles";
 import { RegionSelect } from "@/components/RegionSelect";
 import ClanSearchBackDrop from "./ClanSearchBackdrop";
 
@@ -25,7 +21,7 @@ const AppBar = () => {
           </Typography>
         </Link>
         <StyledSpacer />
-        <StyledTextField
+        <TextField
           placeholder="Find a clan"
           onClick={toggleBackDrop}
           InputProps={{

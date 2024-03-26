@@ -6,10 +6,22 @@ export const theme = createTheme({
       defaultProps: {
         size: "small",
       },
+      styleOverrides: {
+        root: {
+          borderRadius: "2rem",
+        },
+      },
     },
     MuiTextField: {
       defaultProps: {
         size: "small",
+      },
+      styleOverrides: {
+        root: {
+          "& .MuiInputBase-root": {
+            borderRadius: "2rem",
+          },
+        },
       },
     },
   },

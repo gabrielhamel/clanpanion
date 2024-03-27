@@ -28,8 +28,6 @@ const ClanSearchInput = ({
 
   const clans = data ?? [];
 
-  console.log("mounted");
-
   return (
     <Autocomplete
       selectOnFocus={true}

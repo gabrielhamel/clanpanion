@@ -1,7 +1,3 @@
-import { Typography } from "@mui/material";
-
-const Index = () => {
-  return <Typography>We cooking !</Typography>;
-};
+const Index = () => <></>;
 
 export default Index;

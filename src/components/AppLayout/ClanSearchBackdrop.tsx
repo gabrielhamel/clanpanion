@@ -1,6 +1,7 @@
 import { MouseEventHandler } from "react";
 import { useRouter } from "next/router";
 import { ClanSearchInput } from "@/components/ClanSearchInput";
+import { useRegion } from "@/hooks/useRegion";
 import { StyledBackdrop, StyledSearchInputContainer } from "./styles";
 
 const ClanSearchBackDrop = ({
@@ -11,12 +12,13 @@ const ClanSearchBackDrop = ({
   onLeave: () => void;
 }) => {
   const router = useRouter();
+  const { currentRegion } = useRegion();
 
   const handleOnClanChange = (id: number | null) => {
     onLeave();
 
     if (id) {
-      void router.push(`/clan/${id}`);
+      void router.push(`/${currentRegion}/clan/${id}`);
     }
   };
 

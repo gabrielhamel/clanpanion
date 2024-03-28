@@ -9,7 +9,7 @@ export const StyledToolbar = styled(Toolbar)({
 });
 
 export const StyledSearchInputContainer = styled(Box)({
-  marginBottom: "31.25rem",
+  marginTop: "20vh",
   width: "70vw",
 });
 
@@ -28,6 +28,7 @@ export const StyledLogoContainer = styled(Box)({
 });
 
 export const StyledBackdrop = styled(Backdrop)({
+  alignItems: "start",
   backgroundColor: "rgba(0, 0, 0, 0.9)",
   zIndex: 1101,
 });

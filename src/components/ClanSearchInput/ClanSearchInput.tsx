@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Autocomplete, Box, debounce, TextField } from "@mui/material";
+import { Autocomplete, Box, debounce } from "@mui/material";
 import { skipToken } from "@tanstack/react-query";
 import Image from "next/image";
 import { apiClient } from "@/backend/client";
+import { KeyboardKey } from "@/components/KeyboardKey";
 import { useRegion } from "@/hooks/useRegion";
 import { regions } from "@/services/wargaming/region";
 import { WargamingFindClanItem } from "@/services/wargaming/types";
@@ -10,6 +11,8 @@ import {
   ClanDetailLineContainer,
   ClanEmblemContainer,
   ClanOption,
+  StyledPopper,
+  StyledTextField,
 } from "./styles";
 
 const ClanSearchInput = ({
@@ -31,11 +34,12 @@ const ClanSearchInput = ({
   return (
     <Autocomplete
       selectOnFocus={true}
-      clearOnBlur={true}
+      clearOnBlur={false}
       handleHomeEndKeys={true}
-      clearOnEscape={true}
+      clearOnEscape={false}
       loading={findLoading}
       autoComplete={true}
+      PopperComponent={StyledPopper}
       loadingText="Loading..."
       noOptionsText="No results"
       filterOptions={(clan) => clan}
@@ -49,10 +53,14 @@ const ClanSearchInput = ({
         onChange(newValue?.id ?? null);
       }}
       renderInput={(params) => (
-        <TextField
+        <StyledTextField
           {...params}
           autoFocus
-          placeholder="Search a clan"
+          placeholder="Search players and clans"
+          InputProps={{
+            ...params.InputProps,
+            endAdornment: <KeyboardKey symbol="esc" />,
+          }}
           size="medium"
         />
       )}

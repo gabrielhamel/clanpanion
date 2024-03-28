@@ -1,8 +1,9 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Search } from "@mui/icons-material";
 import { AppBar as MuiAppBar, TextField } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
+import { KeyboardKey } from "@/components/KeyboardKey";
 import { RegionSelect } from "@/components/RegionSelect";
 import ClanSearchBackDrop from "./ClanSearchBackdrop";
 import { StyledBackground, StyledLogoContainer, StyledToolbar } from "./styles";
@@ -19,6 +20,18 @@ const AppLayout = ({ children }: { children: ReactNode }) => {
 
 const AppBar = () => {
   const [isBackDropVisible, setBackDropVisibility] = useState(false);
+
+  useEffect(() => {
+    const handleOnKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey && e.key === "k") || (e.ctrlKey && e.key === "k")) {
+        e.preventDefault();
+        setBackDropVisibility(true);
+      }
+    };
+
+    addEventListener("keydown", handleOnKeyDown);
+    return () => removeEventListener("keydown", handleOnKeyDown);
+  }, []);
 
   const handleOnBackDropLeave = () => {
     setBackDropVisibility(false);
@@ -49,7 +62,13 @@ const AppBar = () => {
             placeholder="Search..."
             onClick={handleOnBackDropEnter}
             InputProps={{
-              endAdornment: <Search />,
+              endAdornment: (
+                <>
+                  <KeyboardKey symbol="ctrl" />
+                  <KeyboardKey symbol="k" />
+                </>
+              ),
+              startAdornment: <Search sx={{ marginRight: "0.3rem" }} />,
             }}
           />
           <RegionSelect />

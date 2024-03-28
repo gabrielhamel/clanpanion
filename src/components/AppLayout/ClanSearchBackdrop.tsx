@@ -1,4 +1,4 @@
-import { MouseEventHandler } from "react";
+import { MouseEventHandler, useEffect } from "react";
 import { useRouter } from "next/router";
 import { ClanSearchInput } from "@/components/ClanSearchInput";
 import { useRegion } from "@/hooks/useRegion";
@@ -13,6 +13,18 @@ const ClanSearchBackDrop = ({
 }) => {
   const router = useRouter();
   const { currentRegion } = useRegion();
+
+  useEffect(() => {
+    const handleOnKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        onLeave();
+      }
+    };
+
+    addEventListener("keydown", handleOnKeyDown);
+    return () => removeEventListener("keydown", handleOnKeyDown);
+  }, [onLeave]);
 
   const handleOnClanChange = (id: number | null) => {
     onLeave();

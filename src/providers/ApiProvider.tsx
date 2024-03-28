@@ -13,8 +13,8 @@ const ApiProvider = ({ children }: { children: ReactNode }) => {
   const { enqueueSnackbar } = useSnackbar();
 
   const handleError = (error: Error) => {
-    console.error(error);
-    enqueueSnackbar("Oups ! An error has occurred", { variant: "error" });
+    const errorMessage = error.message ?? "Oups ! An error has occurred";
+    enqueueSnackbar(errorMessage, { variant: "error" });
   };
 
   const [queryClient] = useState(

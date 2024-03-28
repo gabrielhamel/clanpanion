@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { trpc } from "@/backend/trpc";
 import { WargamingRegionSchema } from "@/services/wargaming/region";
@@ -9,10 +10,18 @@ export const find = trpc.procedure
       region: WargamingRegionSchema,
     }),
   )
-  .query(({ input: { name, region }, ctx }) => {
+  .query(async ({ input: { name, region }, ctx }) => {
     if (name.length < 2) {
       return [];
     }
 
-    return ctx.services.wargaming.findClan(name, region);
+    try {
+      return await ctx.services.wargaming.findClan(name, region);
+    } catch (e) {
+      throw new TRPCError({
+        cause: e,
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Wargaming services error",
+      });
+    }
   });

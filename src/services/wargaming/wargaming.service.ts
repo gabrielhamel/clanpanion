@@ -39,6 +39,8 @@ export class WargamingService {
     const response = await fetch(url);
     const json = await response.json();
 
+    console.log("response", json);
+
     return schema.parse(json);
   }
 
@@ -47,7 +49,7 @@ export class WargamingService {
     region: WargamingRegion,
   ): Promise<WargamingGetClanItem> {
     const getClanInfo = await this.makeRequest({
-      callType: "website",
+      callType: "api",
       params: {
         clan_id: clanId.toString(),
       },
@@ -64,7 +66,7 @@ export class WargamingService {
     region: WargamingRegion,
   ): Promise<WargamingFindClanItem[]> {
     const searchAutocomplete = await this.makeRequest({
-      callType: "api",
+      callType: "website",
       params: {
         search: name,
         type: "clans",

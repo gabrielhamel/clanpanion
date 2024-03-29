@@ -18,6 +18,7 @@ export const find = trpc.procedure
     try {
       return await ctx.services.wargaming.findClan(name, region);
     } catch (e) {
+      console.error(e);
       throw new TRPCError({
         cause: e,
         code: "INTERNAL_SERVER_ERROR",

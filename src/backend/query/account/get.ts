@@ -2,23 +2,17 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { trpc } from "@/backend/trpc";
 import { WargamingRegionSchema } from "@/services/wargaming/region";
-import { WargamingFindTypeSchema } from "@/services/wargaming/schemas";
 
-export const find = trpc.procedure
+export const get = trpc.procedure
   .input(
     z.object({
-      name: z.string(),
+      id: z.number(),
       region: WargamingRegionSchema,
-      type: WargamingFindTypeSchema,
     }),
   )
-  .query(async ({ input: { name, region, type }, ctx }) => {
-    if (name.length < 2) {
-      return [];
-    }
-
+  .query(async ({ input: { id, region }, ctx }) => {
     try {
-      return await ctx.services.wargaming.findClan(name, type, region);
+      return await ctx.services.wargaming.getAccount(id, region);
     } catch (e) {
       console.error(e);
       throw new TRPCError({

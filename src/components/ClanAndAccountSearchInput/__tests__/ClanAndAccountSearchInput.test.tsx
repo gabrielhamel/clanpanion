@@ -1,7 +1,7 @@
 import { userEvent } from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { RouterOutput } from "@/backend/router";
-import { ClanSearchInput } from "@/components/ClanSearchInput";
+import { ClanAndAccountSearchInput } from "@/components/ClanAndAccountSearchInput";
 import { mockTRPCQueryResponse } from "@/tests/mocks/client";
 import { act, render } from "@/tests/render";
 
@@ -19,9 +19,12 @@ describe("Clan search input component", () => {
       },
     ]);
 
-    const onClanSelected = vi.fn();
+    const onItemSelected = vi.fn();
     const { getByRole, findByText } = render(
-      <ClanSearchInput onChange={onClanSelected} value={null} />,
+      <ClanAndAccountSearchInput
+        onClanSelected={onItemSelected}
+        onAccountSelected={() => {}}
+      />,
     );
     const input = getByRole("combobox");
 
@@ -29,6 +32,6 @@ describe("Clan search input component", () => {
     const option = await findByText(/cringo-clan-name/);
     act(() => option.click());
 
-    expect(onClanSelected).toHaveBeenCalledWith(666);
+    expect(onItemSelected).toHaveBeenCalledWith(666);
   });
 });

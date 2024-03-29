@@ -1,6 +1,6 @@
 import { MouseEventHandler, useEffect } from "react";
 import { useRouter } from "next/router";
-import { ClanSearchInput } from "@/components/ClanSearchInput";
+import { ClanAndAccountSearchInput } from "@/components/ClanAndAccountSearchInput";
 import { useRegion } from "@/hooks/useRegion";
 import { StyledBackdrop, StyledSearchInputContainer } from "./styles";
 
@@ -26,11 +26,19 @@ const ClanSearchBackDrop = ({
     return () => removeEventListener("keydown", handleOnKeyDown);
   }, [onLeave]);
 
-  const handleOnClanChange = (id: number | null) => {
+  const handleOnClanSelected = (id: number) => {
     onLeave();
 
     if (id) {
       void router.push(`/${currentRegion}/clan/${id}`);
+    }
+  };
+
+  const handleOnAccountSelected = (id: number) => {
+    onLeave();
+
+    if (id) {
+      void router.push(`/${currentRegion}/account/${id}`);
     }
   };
 
@@ -49,7 +57,10 @@ const ClanSearchBackDrop = ({
       id="clan-search-backdrop"
     >
       <StyledSearchInputContainer>
-        <ClanSearchInput onChange={handleOnClanChange} value={null} />
+        <ClanAndAccountSearchInput
+          onAccountSelected={handleOnAccountSelected}
+          onClanSelected={handleOnClanSelected}
+        />
       </StyledSearchInputContainer>
     </StyledBackdrop>
   );

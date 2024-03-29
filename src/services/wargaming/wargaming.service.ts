@@ -2,10 +2,13 @@ import { z } from "zod";
 import { regions, WargamingRegion } from "@/services/wargaming/region";
 import {
   WargamingFindClanResultSchema,
+  WargamingGetAccountResultSchema,
   WargamingGetClanResultSchema,
 } from "@/services/wargaming/schemas";
 import {
-  WargamingFindClanItem,
+  WargamingFindItem,
+  WargamingFindType,
+  WargamingGetAccountItem,
   WargamingGetClanItem,
 } from "@/services/wargaming/types";
 
@@ -39,8 +42,6 @@ export class WargamingService {
     const response = await fetch(url);
     const json = await response.json();
 
-    console.log("response", json);
-
     return schema.parse(json);
   }
 
@@ -61,15 +62,33 @@ export class WargamingService {
     return getClanInfo.data[clanId.toString()];
   }
 
+  async getAccount(
+    accountId: number,
+    region: WargamingRegion,
+  ): Promise<WargamingGetAccountItem> {
+    const getAccountInfo = await this.makeRequest({
+      callType: "api",
+      params: {
+        account_id: accountId.toString(),
+      },
+      region,
+      route: "/wot/account/info",
+      schema: WargamingGetAccountResultSchema,
+    });
+
+    return getAccountInfo.data[accountId.toString()];
+  }
+
   async findClan(
     name: string,
+    type: WargamingFindType,
     region: WargamingRegion,
-  ): Promise<WargamingFindClanItem[]> {
+  ): Promise<WargamingFindItem[]> {
     const searchAutocomplete = await this.makeRequest({
       callType: "website",
       params: {
         search: name,
-        type: "clans",
+        type,
       },
       region,
       route: "/clans/wot/search/api/autocomplete",

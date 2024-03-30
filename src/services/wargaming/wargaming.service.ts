@@ -76,7 +76,12 @@ export class WargamingService {
       schema: WargamingGetAccountResultSchema,
     });
 
-    return getAccountInfo.data[accountId.toString()];
+    const account = getAccountInfo.data[accountId.toString()];
+    if (!account) {
+      throw new Error("Account not found");
+    }
+
+    return account;
   }
 
   async findClan(

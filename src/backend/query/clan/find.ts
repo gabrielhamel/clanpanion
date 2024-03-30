@@ -1,8 +1,8 @@
-import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { trpc } from "@/backend/trpc";
 import { WargamingRegionSchema } from "@/services/wargaming/region";
 import { WargamingFindTypeSchema } from "@/services/wargaming/schemas";
+import { transformToTRPCError } from "@/utils/TRPCerrorTransformer";
 
 export const find = trpc.procedure
   .input(
@@ -20,11 +20,6 @@ export const find = trpc.procedure
     try {
       return await ctx.services.wargaming.findClan(name, type, region);
     } catch (e) {
-      console.error(e);
-      throw new TRPCError({
-        cause: e,
-        code: "INTERNAL_SERVER_ERROR",
-        message: "Wargaming services error",
-      });
+      transformToTRPCError(e);
     }
   });

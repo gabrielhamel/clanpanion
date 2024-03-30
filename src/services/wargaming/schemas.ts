@@ -153,7 +153,7 @@ export const WargamingGetAccountItemSchema = z.object({
 });
 
 export const WargamingGetAccountResultSchema = z.object({
-  data: z.record(WargamingGetAccountItemSchema),
+  data: z.record(WargamingGetAccountItemSchema.nullable()),
   meta: z.object({ count: z.number() }),
   status: z.enum(["ok"]),
 });

@@ -6,13 +6,9 @@ export const StyledList = styled("li")({
 });
 
 export const StyledListOption = styled(Box)({
-  display: "flex",
-  gap: "0.6rem",
-});
-
-export const ClanEmblemContainer = styled(Box)({
   alignItems: "center",
   display: "flex",
+  gap: "0.3rem",
 });
 
 export const StyledPopper = styled(Popper)({

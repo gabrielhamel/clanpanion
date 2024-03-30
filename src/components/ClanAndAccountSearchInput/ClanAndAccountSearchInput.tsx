@@ -3,6 +3,7 @@ import { Autocomplete, Box, debounce } from "@mui/material";
 import { skipToken } from "@tanstack/react-query";
 import { apiClient } from "@/backend/client";
 import { KeyboardKey } from "@/components/KeyboardKey";
+import { useKeyboard } from "@/hooks/useKeyboard";
 import { useRegion } from "@/hooks/useRegion";
 import { isClan, WargamingFindItem } from "@/services/wargaming/types";
 import AccountOption from "./AccountOption";
@@ -23,6 +24,7 @@ const ClanAndAccountSearchInput = ({
   onAccountSelected: (id: number) => void;
 }) => {
   const { currentRegion } = useRegion();
+  const { hasKeyboard } = useKeyboard();
 
   const [searchValue, setSearchValue] = useState("");
 
@@ -78,7 +80,7 @@ const ClanAndAccountSearchInput = ({
           placeholder="Search players and clans"
           InputProps={{
             ...params.InputProps,
-            endAdornment: <KeyboardKey symbol="esc" />,
+            endAdornment: hasKeyboard && <KeyboardKey symbol="esc" />,
           }}
           size="medium"
         />

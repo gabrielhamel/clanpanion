@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { KeyboardKey } from "@/components/KeyboardKey";
 import { RegionSelect } from "@/components/RegionSelect";
+import { useKeyboard } from "@/hooks/useKeyboard";
 import ClanSearchBackDrop from "./ClanSearchBackdrop";
 import { StyledBackground, StyledLogoContainer, StyledToolbar } from "./styles";
 
@@ -19,9 +20,14 @@ const AppLayout = ({ children }: { children: ReactNode }) => {
 };
 
 const AppBar = () => {
+  const { metaKey, hasKeyboard } = useKeyboard();
   const [isBackDropVisible, setBackDropVisibility] = useState(false);
 
   useEffect(() => {
+    if (!hasKeyboard) {
+      return;
+    }
+
     const handleOnKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey && e.key === "k") || (e.ctrlKey && e.key === "k")) {
         e.preventDefault();
@@ -31,7 +37,7 @@ const AppBar = () => {
 
     addEventListener("keydown", handleOnKeyDown);
     return () => removeEventListener("keydown", handleOnKeyDown);
-  }, []);
+  }, [hasKeyboard]);
 
   const handleOnBackDropLeave = () => {
     setBackDropVisibility(false);
@@ -62,9 +68,9 @@ const AppBar = () => {
             placeholder="Search..."
             onClick={handleOnBackDropEnter}
             InputProps={{
-              endAdornment: (
+              endAdornment: hasKeyboard && (
                 <>
-                  <KeyboardKey symbol="ctrl" />
+                  <KeyboardKey symbol={metaKey} />
                   <KeyboardKey symbol="k" />
                 </>
               ),

@@ -1,4 +1,4 @@
-import { Backdrop, Box, styled, Toolbar } from "@mui/material";
+import { Backdrop, Box, styled, Toolbar, useMediaQuery } from "@mui/material";
 
 export const StyledToolbar = styled(Toolbar)({
   alignItems: "center",
@@ -8,9 +8,14 @@ export const StyledToolbar = styled(Toolbar)({
   width: "100%",
 });
 
-export const StyledSearchInputContainer = styled(Box)({
-  marginTop: "20vh",
-  width: "70vw",
+export const StyledSearchInputContainer = styled(Box)(({ theme }) => {
+  const isSM = useMediaQuery(theme.breakpoints.down("sm"));
+
+  return {
+    marginTop: isSM ? "0" : "20vh",
+    maxWidth: "37.5rem",
+    width: isSM ? "100vw" : "70vw",
+  };
 });
 
 export const StyledBackground = styled(Box)({

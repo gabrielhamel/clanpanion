@@ -1,4 +1,4 @@
-import { Box, Popper, styled, TextField } from "@mui/material";
+import { Box, Popper, styled, TextField, useMediaQuery } from "@mui/material";
 
 export const StyledList = styled("li")({
   margin: 0,
@@ -17,10 +17,14 @@ export const StyledPopper = styled(Popper)({
   },
 });
 
-export const StyledTextField = styled(TextField)({
-  "& .MuiInputBase-root": {
-    borderRadius: "1rem 1rem 0rem 0rem",
-  },
+export const StyledTextField = styled(TextField)(({ theme }) => {
+  const isSM = useMediaQuery(theme.breakpoints.down("sm"));
+
+  return {
+    "& .MuiInputBase-root": {
+      borderRadius: isSM ? "0" : "1rem 1rem 0rem 0rem",
+    },
+  };
 });
 
 export const StyledGroupLabel = styled(Box)({

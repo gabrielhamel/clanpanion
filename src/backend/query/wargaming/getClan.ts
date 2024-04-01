@@ -3,7 +3,7 @@ import { trpc } from "@/backend/trpc";
 import { WargamingRegionSchema } from "@/services/wargaming/region";
 import { transformToTRPCError } from "@/utils/TRPCerrorTransformer";
 
-export const get = trpc.procedure
+export const getClan = trpc.procedure
   .input(
     z.object({
       id: z.number(),
@@ -12,7 +12,7 @@ export const get = trpc.procedure
   )
   .query(async ({ input: { id, region }, ctx }) => {
     try {
-      return await ctx.services.wargaming.getAccount(id, region);
+      return await ctx.services.wargaming.getClan(id, region);
     } catch (e) {
       transformToTRPCError(e);
     }

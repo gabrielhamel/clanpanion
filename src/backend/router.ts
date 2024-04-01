@@ -1,16 +1,12 @@
 import { inferRouterOutputs } from "@trpc/server";
-import { get as getAccount } from "@/backend/query/account/get";
-import { find as findClan } from "@/backend/query/clan/find";
-import { get as getClan } from "@/backend/query/clan/get";
+import { getAccount, getClan, search } from "@/backend/query/wargaming";
 import { trpc } from "@/backend/trpc";
 
 export const router = trpc.router({
-  account: {
-    get: getAccount,
-  },
-  clan: {
-    find: findClan,
-    get: getClan,
+  wargaming: {
+    getAccount,
+    getClan,
+    search,
   },
 });
 

@@ -9,12 +9,12 @@ import { WargamingFindAccountItem } from "@/services/wargaming/types";
 const AccountOption = ({ account }: { account: WargamingFindAccountItem }) => {
   const { currentRegion } = useRegion();
 
-  const { data: accountDetail } = apiClient.account.get.useQuery({
+  const { data: accountDetail } = apiClient.wargaming.getAccount.useQuery({
     id: account.id,
     region: currentRegion,
   });
 
-  const { data: clan } = apiClient.clan.get.useQuery(
+  const { data: clan } = apiClient.wargaming.getClan.useQuery(
     accountDetail?.clan_id
       ? {
           id: accountDetail.clan_id,

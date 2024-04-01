@@ -22,7 +22,7 @@ export const ClanProvider = ({
 }) => {
   const { currentRegion } = useRegion();
 
-  const { data, isLoading, isError } = apiClient.clan.get.useQuery({
+  const { data, isLoading, isError } = apiClient.wargaming.getClan.useQuery({
     id,
     region: currentRegion,
   });

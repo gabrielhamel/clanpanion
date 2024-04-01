@@ -9,7 +9,7 @@ const AccountContainer = () => {
   const { currentRegion } = useRegion();
   const { account } = useAccount();
 
-  const { data: clan } = apiClient.clan.get.useQuery(
+  const { data: clan } = apiClient.wargaming.getClan.useQuery(
     account?.clan_id
       ? {
           id: account?.clan_id,

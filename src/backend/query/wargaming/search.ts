@@ -4,7 +4,7 @@ import { WargamingRegionSchema } from "@/services/wargaming/region";
 import { WargamingFindTypeSchema } from "@/services/wargaming/schemas";
 import { transformToTRPCError } from "@/utils/TRPCerrorTransformer";
 
-export const find = trpc.procedure
+export const search = trpc.procedure
   .input(
     z.object({
       name: z.string(),

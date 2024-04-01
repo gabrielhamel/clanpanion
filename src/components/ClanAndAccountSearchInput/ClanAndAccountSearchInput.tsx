@@ -28,7 +28,7 @@ const ClanAndAccountSearchInput = ({
 
   const [searchValue, setSearchValue] = useState("");
 
-  const { data, isLoading: findLoading } = apiClient.clan.find.useQuery(
+  const { data, isLoading: findLoading } = apiClient.wargaming.search.useQuery(
     searchValue
       ? { name: searchValue, region: currentRegion, type: "all" }
       : skipToken,

@@ -7,17 +7,20 @@ import { act, render } from "@/tests/render";
 
 describe("Clan search input component", () => {
   it("Should find the searched clan and select it", async () => {
-    mockTRPCQueryResponse<RouterOutput["clan"]["find"]>("clan.find", [
-      {
-        emblem_url: "fake-emblem-url",
-        hex_color: "#1EFF87",
-        id: 666,
-        name: "cringo-clan-name",
-        tag: "CRNGO",
-        type: "clan",
-        url: "fake-clan-url",
-      },
-    ]);
+    mockTRPCQueryResponse<RouterOutput["wargaming"]["search"]>(
+      "wargaming.search",
+      [
+        {
+          emblem_url: "fake-emblem-url",
+          hex_color: "#1EFF87",
+          id: 666,
+          name: "cringo-clan-name",
+          tag: "CRNGO",
+          type: "clan",
+          url: "fake-clan-url",
+        },
+      ],
+    );
 
     const onItemSelected = vi.fn();
     const { getByRole, findByText } = render(

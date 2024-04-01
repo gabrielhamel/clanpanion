@@ -22,7 +22,7 @@ export const AccountProvider = ({
 }) => {
   const { currentRegion } = useRegion();
 
-  const { data, isLoading, isError } = apiClient.account.get.useQuery({
+  const { data, isLoading, isError } = apiClient.wargaming.getAccount.useQuery({
     id,
     region: currentRegion,
   });

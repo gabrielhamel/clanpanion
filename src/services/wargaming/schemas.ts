@@ -6,7 +6,7 @@ export const WargamingFindClanItemSchema = z.object({
   id: z.number(),
   name: z.string(),
   tag: z.string(),
-  type: z.enum(["clan"]),
+  type: z.literal("clan"),
   url: z.string(),
 });
 
@@ -23,7 +23,7 @@ export const WargamingFindAccountItemSchema = z.object({
       name: z.string(),
     })
     .nullable(),
-  type: z.enum(["account"]),
+  type: z.literal("account"),
   url: z.string().optional(),
 });
 
@@ -36,7 +36,7 @@ export const WargamingFindTypeSchema = z.enum(["all", "accounts", "clans"]);
 
 export const WargamingFindClanResultSchema = z.object({
   _meta_: z.object({
-    collection: z.enum(["search_autocomplete_result"]),
+    collection: z.literal("search_autocomplete_result"),
     total_accounts: z.number().nullable(),
     total_clans: z.number().nullable(),
   }),
@@ -85,7 +85,7 @@ export const WargamingGetClanItemSchema = z.object({
 export const WargamingGetClanResultSchema = z.object({
   data: z.record(WargamingGetClanItemSchema),
   meta: z.object({ count: z.number() }),
-  status: z.enum(["ok"]),
+  status: z.literal("ok"),
 });
 
 export const WargamingAccountStatisticsSchema = z.object({
@@ -155,5 +155,58 @@ export const WargamingGetAccountItemSchema = z.object({
 export const WargamingGetAccountResultSchema = z.object({
   data: z.record(WargamingGetAccountItemSchema.nullable()),
   meta: z.object({ count: z.number() }),
-  status: z.enum(["ok"]),
+  status: z.literal("ok"),
+});
+
+export const WargamingClanEventAccountInfoSchema = z.object({
+  name: z.string(),
+  role: z.string(),
+  url: z.string(),
+});
+
+export const WargamingClanRoleSchema = z.object({
+  localized: z.string(),
+  name: z.string(),
+  rank: z.number(),
+});
+
+export const WargamingEventRoleChangeSchema = z.object({
+  new_role: WargamingClanRoleSchema,
+  old_role: WargamingClanRoleSchema,
+});
+
+export const WargamingEventJoinSchema = z.object({
+  joining_method: z.enum(["application", "invite"]),
+});
+
+export const WargamingEventLeaveSchema = z.object({
+  last_role_name: z.string(),
+});
+
+export const WargamingClanEventAdditionalInfo = z.union([
+  WargamingEventRoleChangeSchema,
+  WargamingEventJoinSchema,
+  WargamingEventLeaveSchema,
+]);
+
+export const WargamingClanEventType = z.enum([
+  "leave_clan",
+  "join_clan",
+  "change_role",
+]);
+
+export const WargamingGetClanEventsResultSchema = z.object({
+  _meta_: z.object({ collection: z.literal("items"), until_date: z.string() }),
+  items: z.array(
+    z.object({
+      accounts_ids: z.array(z.number()),
+      accounts_info: z.record(WargamingClanEventAccountInfoSchema),
+      additional_info: z.record(z.array(WargamingClanEventAdditionalInfo)),
+      created_at: z.string(),
+      group: z.literal("military_personnel"),
+      initiator_id: z.null(),
+      subtype: WargamingClanEventType,
+      type: WargamingClanEventType,
+    }),
+  ),
 });

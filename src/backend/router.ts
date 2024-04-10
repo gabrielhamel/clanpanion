@@ -1,11 +1,17 @@
 import { inferRouterOutputs } from "@trpc/server";
-import { getAccount, getClan, search } from "@/backend/query/wargaming";
+import {
+  getAccount,
+  getClan,
+  getClanHistory,
+  search,
+} from "@/backend/query/wargaming";
 import { trpc } from "@/backend/trpc";
 
 export const router = trpc.router({
   wargaming: {
     getAccount,
     getClan,
+    getClanHistory,
     search,
   },
 });

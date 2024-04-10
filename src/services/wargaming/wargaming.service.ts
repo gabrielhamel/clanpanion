@@ -3,12 +3,11 @@ import { regions, WargamingRegion } from "@/services/wargaming/region";
 import {
   WargamingFindClanResultSchema,
   WargamingGetAccountResultSchema,
+  WargamingGetClanEventsResultSchema,
   WargamingGetClanResultSchema,
 } from "@/services/wargaming/schemas";
 import {
-  WargamingFindItem,
   WargamingFindType,
-  WargamingGetAccountItem,
   WargamingGetClanItem,
 } from "@/services/wargaming/types";
 
@@ -62,10 +61,7 @@ export class WargamingService {
     return getClanInfo.data[clanId.toString()];
   }
 
-  async getAccount(
-    accountId: number,
-    region: WargamingRegion,
-  ): Promise<WargamingGetAccountItem> {
+  async getAccount(accountId: number, region: WargamingRegion) {
     const getAccountInfo = await this.makeRequest({
       callType: "api",
       params: {
@@ -88,7 +84,7 @@ export class WargamingService {
     name: string,
     type: WargamingFindType,
     region: WargamingRegion,
-  ): Promise<WargamingFindItem[]> {
+  ) {
     const searchAutocomplete = await this.makeRequest({
       callType: "website",
       params: {
@@ -101,5 +97,20 @@ export class WargamingService {
     });
 
     return searchAutocomplete.search_autocomplete_result;
+  }
+
+  async getClanHistory(clanId: number, region: WargamingRegion) {
+    const getClanEvents = await this.makeRequest({
+      callType: "website",
+      params: {
+        date_until: "2024-04-01T09:35:01+00:00",
+        offset: "7200",
+      },
+      region,
+      route: `/clans/wot/${clanId}/newsfeed/api/events`,
+      schema: WargamingGetClanEventsResultSchema,
+    });
+
+    return getClanEvents.items;
   }
 }

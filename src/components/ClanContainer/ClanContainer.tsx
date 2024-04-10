@@ -1,5 +1,6 @@
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Head from "next/head";
+import ClanHistory from "@/components/ClanContainer/ClanHistory";
 import { useClan } from "@/hooks/useClan";
 
 const ClanContainer = () => {
@@ -13,7 +14,10 @@ const ClanContainer = () => {
             [{clan.tag}] - {clan.name}
           </title>
         </Head>
-        {clan.name}
+        <Box>
+          <Box>{clan.name}</Box>
+          <ClanHistory />
+        </Box>
       </Typography>
     )
   );

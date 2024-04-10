@@ -7,19 +7,24 @@ import { useRegion } from "@/hooks/useRegion";
 
 const AccountContainer = () => {
   const { currentRegion } = useRegion();
-  const { account } = useAccount();
+  const { account, isLoading: isLoadingAccount } = useAccount();
 
-  const { data: clan } = apiClient.wargaming.getClan.useQuery(
-    account?.clan_id
-      ? {
-          id: account?.clan_id,
-          region: currentRegion,
-        }
-      : skipToken,
-  );
+  const { data: clan, isLoading: isLoadingClan } =
+    apiClient.wargaming.getClan.useQuery(
+      account?.clan_id
+        ? {
+            id: account.clan_id,
+            region: currentRegion,
+          }
+        : skipToken,
+    );
 
-  if (!account) {
-    return "Loading...";
+  if (isLoadingAccount || isLoadingClan) {
+    return <>Loading...</>;
+  }
+
+  if (!account || !clan) {
+    return <>Error</>;
   }
 
   const title = clan

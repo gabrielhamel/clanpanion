@@ -183,13 +183,13 @@ export const WargamingEventLeaveSchema = z.object({
   last_role_name: z.string(),
 });
 
-export const WargamingClanEventAdditionalInfo = z.union([
+export const WargamingClanEventAdditionalInfoSchema = z.union([
   WargamingEventRoleChangeSchema,
   WargamingEventJoinSchema,
   WargamingEventLeaveSchema,
 ]);
 
-export const WargamingClanEventType = z.enum([
+export const WargamingClanEventTypeSchema = z.enum([
   "leave_clan",
   "join_clan",
   "change_role",
@@ -201,12 +201,14 @@ export const WargamingGetClanEventsResultSchema = z.object({
     z.object({
       accounts_ids: z.array(z.number()),
       accounts_info: z.record(WargamingClanEventAccountInfoSchema),
-      additional_info: z.record(z.array(WargamingClanEventAdditionalInfo)),
+      additional_info: z.record(
+        z.array(WargamingClanEventAdditionalInfoSchema),
+      ),
       created_at: z.string(),
       group: z.literal("military_personnel"),
       initiator_id: z.null(),
-      subtype: WargamingClanEventType,
-      type: WargamingClanEventType,
+      subtype: WargamingClanEventTypeSchema,
+      type: WargamingClanEventTypeSchema,
     }),
   ),
 });

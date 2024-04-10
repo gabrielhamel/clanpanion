@@ -1,5 +1,10 @@
 import { z } from "zod";
 import {
+  WargamingClanEventAdditionalInfoSchema,
+  WargamingClanEventTypeSchema,
+  WargamingEventJoinSchema,
+  WargamingEventLeaveSchema,
+  WargamingEventRoleChangeSchema,
   WargamingFindAccountItemSchema,
   WargamingFindClanItemSchema,
   WargamingFindItemSchema,
@@ -25,3 +30,28 @@ export type WargamingGetClanItem = z.infer<typeof WargamingGetClanItemSchema>;
 export type WargamingGetAccountItem = z.infer<
   typeof WargamingGetAccountItemSchema
 >;
+
+export type WargamingClanEventType = z.infer<
+  typeof WargamingClanEventTypeSchema
+>;
+export type WargamingEventRoleChange = z.infer<
+  typeof WargamingEventRoleChangeSchema
+>;
+export type WargamingEventJoin = z.infer<typeof WargamingEventJoinSchema>;
+export type WargamingEventLeave = z.infer<typeof WargamingEventLeaveSchema>;
+
+type WargamingClanEventAdditionalInfo = z.infer<
+  typeof WargamingClanEventAdditionalInfoSchema
+>;
+export const isClanJoinEvent = (
+  eventType: WargamingClanEventType,
+  additionalInfo: WargamingClanEventAdditionalInfo,
+): additionalInfo is WargamingEventJoin => eventType === "join_clan";
+export const isClanLeaveEvent = (
+  eventType: WargamingClanEventType,
+  additionalInfo: WargamingClanEventAdditionalInfo,
+): additionalInfo is WargamingEventLeave => eventType === "leave_clan";
+export const isRoleChangeEvent = (
+  eventType: WargamingClanEventType,
+  additionalInfo: WargamingClanEventAdditionalInfo,
+): additionalInfo is WargamingEventRoleChange => eventType === "change_role";

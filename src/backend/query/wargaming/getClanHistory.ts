@@ -12,7 +12,16 @@ export const getClanHistory = trpc.procedure
   )
   .query(async ({ input: { id, region }, ctx }) => {
     try {
-      return await ctx.services.wargaming.getClanHistory(id, region);
+      const events = await ctx.services.wargaming.getClanHistory(id, region);
+
+      return events.flatMap((event) =>
+        event.accounts_ids.map((accountId) => ({
+          ...event,
+          accountId,
+          accountInfo: event.accounts_info[accountId],
+          additionalInfo: event.additional_info[accountId][0],
+        })),
+      );
     } catch (e) {
       transformToTRPCError(e);
     }
